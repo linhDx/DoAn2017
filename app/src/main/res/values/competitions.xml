@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="season2015">
+        <item>Buldesliga:394</item>
+        <item>Ligue 1:396</item>
+        <item>Premier League:398</item>
+        <item>Premier Division:399</item>
+        <item>Serie A:401</item>
+        <item>Champions League:405</item>
+    </string-array>
+    
+    <string-array name="season2016">
+        <item>European Championships France 2016:424</item>
+        <item>Buldesliga:430</item>
+        <item>Ligue 1:434</item>
+        <item>Premier League:426</item>
+        <item>Premier Division:436</item>
+        <item>Serie A:438</item>
+        <item>Champions League:440</item>
+    </string-array>
+</resources>
