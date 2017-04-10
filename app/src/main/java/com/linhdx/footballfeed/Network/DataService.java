@@ -1,6 +1,7 @@
 package com.linhdx.footballfeed.Network;
 
 import com.linhdx.footballfeed.AppConstant;
+import com.linhdx.footballfeed.AppObjectNetWork.LeagueTableNetWorkWrapper;
 import com.linhdx.footballfeed.AppObjectNetWork.NextMatchNetWorkWrapper;
 
 import java.io.IOException;
@@ -38,4 +39,8 @@ public interface DataService {
     //http://api.football-data.org/v1/competitions/426/fixtures?timeFrame=n1
     @GET(AppConstant.PL_N_MATCH)
     Call<NextMatchNetWorkWrapper> getNextMatchStatusesPL(@Path("id") int groupID);
+
+    //http://api.football-data.org/v1/competitions/426/leagueTable
+    @GET(AppConstant.LEAGUETABLE)
+    Call<LeagueTableNetWorkWrapper> getTableTeamStatuses(@Path("id") int groupID);
 }

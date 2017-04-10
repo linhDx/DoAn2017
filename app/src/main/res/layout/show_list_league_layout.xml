@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/red_tabs"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tab_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="League table season 2016/2017"
+            android:textColor="@color/white"
+            android:textSize="10pt" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/league_table_pl"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/icon_league_pl"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/icon_pl" />
+
+        <TextView
+            android:id="@+id/tab_league_name_pl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/icon_league_pl"
+            android:text="Premier League"
+            android:textColor="@color/white"
+            android:textSize="10pt" />
+
+        <ImageView
+            android:id="@+id/icon_view_league_pl"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_arrow_right" />
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="20dp"
+        android:background="@color/white"></View>
+
+    <RelativeLayout
+        android:id="@+id/league_table_pd"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/icon_league_pd"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/icon_pl" />
+
+        <TextView
+            android:id="@+id/tab_league_name_pd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/icon_league_pd"
+            android:text="Premier Division"
+            android:textColor="@color/white"
+            android:textSize="10pt" />
+
+        <ImageView
+            android:id="@+id/icon_view_league_pd"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_arrow_right" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/league_table_bl"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/icon_league_bl"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/icon_pl" />
+
+        <TextView
+            android:id="@+id/tab_league_name_bl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/icon_league_bl"
+            android:text="Buldesliga"
+            android:textColor="@color/white"
+            android:textSize="10pt" />
+
+        <ImageView
+            android:id="@+id/icon_view_league_bl"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_arrow_right" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/league_table_sa"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/icon_league_sa"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/icon_pl" />
+
+        <TextView
+            android:id="@+id/tab_league_name_sa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/icon_league_sa"
+            android:text="Serie A"
+            android:textColor="@color/white"
+            android:textSize="10pt" />
+
+        <ImageView
+            android:id="@+id/icon_view_league_sa"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_arrow_right" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/league_table_lo"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/icon_league_lo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/icon_pl" />
+
+        <TextView
+            android:id="@+id/tab_league_name_lo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/icon_league_lo"
+            android:text="League One"
+            android:textColor="@color/white"
+            android:textSize="10pt" />
+
+        <ImageView
+            android:id="@+id/icon_view_league_lo"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_arrow_right" />
+    </RelativeLayout>
+</LinearLayout>

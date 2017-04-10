@@ -20,26 +20,8 @@ public class NextMatchNetWorkWrapper implements Serializable{
         return count;
     }
 
-    public void setCount(int count) {
-        this.count = count;
-    }
-
     public NextMatchNetWorkStatus[] getNextMatchStatusesPL() {
         return nextMatchStatuses;
     }
-    public NextMatchNetWorkStatus[] getNextMatchStatusesPD() {
-        return nextMatchStatuses;
-    }
-    public NextMatchNetWorkStatus[] getNextMatchStatusesBL() {
-        return nextMatchStatuses;
-    }
-    public NextMatchNetWorkStatus[] getNextMatchStatusesSA() {
-        return nextMatchStatuses;
-    }
 
-
-
-    public void setNextMatchStatuses(NextMatchNetWorkStatus[] nextMatchStatuses) {
-        this.nextMatchStatuses = nextMatchStatuses;
-    }
 }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="@color/black">
+
+    <TextView
+        android:id="@+id/tv_pt"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="75"
+        android:textColor="@color/white"
+        android:textSize="8pt" />
+
+    <TextView
+        android:id="@+id/tv_goal_diff"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/tv_pt"
+        android:text="40"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="8pt" />
+
+    <TextView
+        android:id="@+id/tv_p"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/tv_goal_diff"
+        android:paddingLeft="10dp"
+        android:text="31"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="8pt" />
+    <TextView
+        android:id="@+id/tv_stt"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:text="1"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="8pt"/>
+
+    <TextView
+        android:id="@+id/tv_league_table_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/tv_stt"
+        android:paddingLeft="10dp"
+        android:text="Chelsea"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="8pt" />
+</RelativeLayout>

@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.linhdx.footballfeed.View.Fragment.LeagueTableFragment;
 import com.linhdx.footballfeed.View.Fragment.MatchDayFragment;
 import com.linhdx.footballfeed.View.Fragment.SuperAwesomeCardFragment;
 
@@ -21,10 +22,16 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Fragment a ;
-        if(position==0){
-            a= new MatchDayFragment();
-        } else {
-            a = SuperAwesomeCardFragment.newInstance(position);
+        switch (position){
+            case 0:
+                a= new MatchDayFragment();
+                break;
+            case 1:
+                a = new LeagueTableFragment();
+                break;
+            default:
+                a=  SuperAwesomeCardFragment.newInstance(position);
+                break;
         }
         return a;
     }
