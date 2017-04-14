@@ -3,6 +3,8 @@ package com.linhdx.footballfeed.Network;
 import com.linhdx.footballfeed.AppConstant;
 import com.linhdx.footballfeed.AppObjectNetWork.LeagueTableNetWorkWrapper;
 import com.linhdx.footballfeed.AppObjectNetWork.NextMatchNetWorkWrapper;
+import com.linhdx.footballfeed.AppObjectNetWork.TeamNetWorkWrapper;
+import com.linhdx.footballfeed.AppObjectNetWork.TeamPlayerNetWorkWrapper;
 
 import java.io.IOException;
 
@@ -43,4 +45,13 @@ public interface DataService {
     //http://api.football-data.org/v1/competitions/426/leagueTable
     @GET(AppConstant.LEAGUETABLE)
     Call<LeagueTableNetWorkWrapper> getTableTeamStatuses(@Path("id") int groupID);
+
+    @GET(AppConstant.TEAMS)
+    Call<TeamNetWorkWrapper> getTeamNetWorkStatuses(@Path("id") int id);
+
+    @GET(AppConstant.TEAM_PLAYER)
+    Call<TeamPlayerNetWorkWrapper> getPlayers(@Path("id") int id);
+
+    @GET(AppConstant.TEAM_COMPETITIONS)
+    Call<NextMatchNetWorkWrapper> getCount(@Path("id") int groupID);
 }

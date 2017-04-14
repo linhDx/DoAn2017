@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.linhdx.footballfeed.View.Fragment.LeagueTableFragment;
 import com.linhdx.footballfeed.View.Fragment.MatchDayFragment;
 import com.linhdx.footballfeed.View.Fragment.SuperAwesomeCardFragment;
+import com.linhdx.footballfeed.View.Fragment.TeamFragment;
 
 /**
  * Created by shine on 07/04/2017.
@@ -28,6 +29,9 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
                 break;
             case 1:
                 a = new LeagueTableFragment();
+                break;
+            case 2:
+                a = new TeamFragment();
                 break;
             default:
                 a=  SuperAwesomeCardFragment.newInstance(position);

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.linhdx.footballfeed.Entity.NextMatchStatus;
 import com.linhdx.footballfeed.R;
+import com.linhdx.footballfeed.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class CustomListViewMatchDayAdapter extends BaseAdapter {
     }
 
     public class Holder{
-        TextView tvTime, tvHome, tvAway;
+        TextView tvTime, tvHome, tvAway, tvDate;
         ImageView imgAlert;
     }
 
@@ -61,10 +62,12 @@ public class CustomListViewMatchDayAdapter extends BaseAdapter {
         holder.tvHome= (TextView)rowView.findViewById(R.id.tv_home_team);
         holder.tvAway = (TextView)rowView.findViewById(R.id.tv_away_team);
         holder.imgAlert = (ImageView) rowView.findViewById(R.id.iv_alert_time);
+        holder.tvDate=(TextView)rowView.findViewById(R.id.tv_date_matchday);
 
         holder.tvTime.setText(list.get(position).getTime());
         holder.tvHome.setText(list.get(position).getHomeName());
         holder.tvAway.setText(list.get(position).getAwayName());
+        holder.tvDate.setText(Utils.convertDate(list.get(position).getDate()));
         holder.imgAlert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

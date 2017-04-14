@@ -87,7 +87,7 @@ public class ListLeagueFragment extends Fragment {
             showLeagueFragment.setArguments(bundle);
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.league_table_container, showLeagueFragment).commit();
+            ft.replace(R.id.league_table_container, showLeagueFragment).addToBackStack(null).commit();
         } catch (ClassCastException CastEx){
             Toast.makeText(getActivity(), "error!", Toast.LENGTH_LONG).show();
         }

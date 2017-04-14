@@ -7,6 +7,8 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +20,11 @@ import android.widget.Toast;
 import com.astuetz.PagerSlidingTabStrip;
 
 import com.linhdx.footballfeed.Adapter.MyPagerAdapter;
+import com.linhdx.footballfeed.Base.BaseFragment;
+import com.linhdx.footballfeed.Interface.OnBackPressedListener;
 import com.linhdx.footballfeed.R;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private final Handler handler = new Handler();
@@ -136,4 +142,13 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    public void onBackPressed() {
+        if(getFragmentManager().getBackStackEntryCount() >0){
+            FragmentManager fm = getSupportFragmentManager();
+            fm.popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
