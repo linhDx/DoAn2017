@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="height_tool_bar">50dp</dimen>
+    <dimen name="margin_button">16dp</dimen>
+</resources>

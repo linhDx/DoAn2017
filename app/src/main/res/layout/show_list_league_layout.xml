@@ -163,38 +163,5 @@
             android:src="@drawable/ic_arrow_right" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/league_table_lo"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:background="@color/black">
 
-        <ImageView
-            android:id="@+id/icon_league_lo"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/icon_pl" />
-
-        <TextView
-            android:id="@+id/tab_league_name_lo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@+id/icon_league_lo"
-            android:text="League One"
-            android:textColor="@color/white"
-            android:textSize="10pt" />
-
-        <ImageView
-            android:id="@+id/icon_view_league_lo"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_arrow_right" />
-    </RelativeLayout>
 </LinearLayout>

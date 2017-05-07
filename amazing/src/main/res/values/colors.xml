@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="gray_indicator">#898989</color>
+    <color name="gray_transparent_pressed">#68686868</color>
+</resources>

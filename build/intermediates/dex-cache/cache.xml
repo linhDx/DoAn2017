@@ -3,12 +3,21 @@
 
     <item
         is-multidex="false"
-        jar="/home/shine/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.5.2/7446d06ec8d4f7ffcc53f1da37c95f200dcb9387/picasso-2.5.2.jar"
+        jar="/home/shine/AndroidStudioProjects/FootballFeed/amazing/build/intermediates/bundles/default/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
-        <dex dex="/home/shine/AndroidStudioProjects/FootballFeed/app/build/intermediates/pre-dexed/debug/picasso-2.5.2_7a9c3936de2dc44f79bdb1b5ca743b090e507856.jar" />
+        sha1="47e9c099ff62e06097ca8b2b797100cffc01e48b">
+        <dex dex="/home/shine/AndroidStudioProjects/FootballFeed/app/build/intermediates/pre-dexed/debug/classes_826adf6bacebe6cfb368e94b727a9cbe7a348161.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/shine/AndroidStudioProjects/FootballFeed/app/libs/YouTubeAndroidPlayerApi.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3c4f96ff493456651cc7bdb0b47e10eb25545a16">
+        <dex dex="/home/shine/AndroidStudioProjects/FootballFeed/app/build/intermediates/pre-dexed/debug/YouTubeAndroidPlayerApi_35c2d4e9cf2b8013199eaddcfc00d8d2ba18b2f6.jar" />
     </item>
 
 </items>

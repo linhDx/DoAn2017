@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Layout.FillWidthHeight"
+    tools:context=".view.activity.AmazingSplashActivity">
+
+    <ImageView
+        android:id="@+id/img_splash"
+        style="@style/Layout.FillWidthHeight"
+        android:scaleType="centerCrop" />
+</RelativeLayout>

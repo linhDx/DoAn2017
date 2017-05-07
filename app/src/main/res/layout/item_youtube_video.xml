@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutSong"
+    style="@style/Layout.FillWidth"
+    android:background="@android:color/black"
+    tools:context=".adapter.YoutubeVideoAdapter">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/imgThumb"
+        android:layout_width="140dp"
+        android:layout_height="100dp"
+        android:contentDescription="@string/app_name"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_not_found" />
+
+    <LinearLayout
+        style="@style/Layout.Weight.Width"
+        android:background="@android:color/black"
+        android:orientation="vertical"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/lblVideoName"
+            style="@style/Text.ItemVideo"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/lblDescription"
+            style="@style/Text.ItemVideo.Content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:singleLine="false"
+            android:textColor="@android:color/darker_gray"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+
+</LinearLayout>

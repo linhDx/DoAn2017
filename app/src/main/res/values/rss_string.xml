@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="dantri_rss">
+        <item>bong-da-anh</item>
+        <item>bong-da-tbn</item>
+        <item>bong-da-chau-au</item>
+    </string-array>
+    <string-array name="bongda24h">
+        <item>172</item>
+        <item>180</item>
+        <item>193</item>
+        <item>176</item>
+    </string-array>
+    <string-array name="bongdacom">
+        <item>bong-da-anh</item>
+        <item>la-liga</item>
+        <item>bundesliga</item>
+        <item>serie-a</item>
+        <item>tin-chuyen-nhuong</item>
+    </string-array>
+    <string-array name="thethao247">
+        <item>bong-da-anh-c8</item>
+        <item>La-Liga-c59</item>
+        <item>bundes-liga-c65</item>
+        <item>serie-a-c62</item>
+    </string-array>
+</resources>

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -39,6 +40,20 @@ public class Utils {
         return result;
     }
 
+    //28/04 02:00-Manchester City-? - ?-Manchester United
+    public static String[] matchInforXml(String infor){
+        String[] result= new String[6];
+        String[] result_1= infor.split("-");
+        String[] result_2 = result_1[0].split(" ");
+        String[] result_3 = result_2[0].split("/");
+        result[0] = "2017" +"-"+result_3[1]+"-"+result_3[0] ;
+        result[1] = result_2[1];
+        result[2] = result_1[1];
+        result[3] = result_1[2];
+        result[4] = result_1[3];
+        result[5] = result_1[4];
+        return result;
+    }
     // show full item in listview
     public static boolean setListViewHeightBasedOnItems(ListView listView) {
 
@@ -87,6 +102,7 @@ public class Utils {
     }
 
     //get team id
+    //http://api.football-data.org/v1/teams/66/players -> 66
     public static String getTeamId(String string) {
         String[] a = string.split("/");
         return a[5];
@@ -97,5 +113,10 @@ public class Utils {
         String[] a = date.split("-");
         return a[2] + "-" + a[1] + "-" + a[0];
     }
-
+    public static String getImgLink(String des){
+        int pFrom = des.indexOf("src=") +5;
+        int pEnd =des.indexOf(" />")-1;
+        String url = des.substring(pFrom, pEnd);
+        return  url;
+    }
 }

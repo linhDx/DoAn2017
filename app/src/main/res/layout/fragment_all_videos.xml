@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Layout.FillWidthHeight"
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp">
+    <altplus.amazing.view.widget.AmazingRecyclerView
+        android:id="@+id/arcView"
+        style="@style/ListView"
+        android:dividerHeight="5dp" />
+</RelativeLayout>

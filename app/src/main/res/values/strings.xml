@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">FootballFeed</string>
+    <string name="noNetwork">Your network has problem.</string>
+
+    <string name="error_player">Initial YouTubePlayer error(%1$s)</string>
+    <string name="googleApiKey">AIzaSyCboqBRA3mJ-BHBCaA7GgIUmoLjV-w3PWE</string>
+
 </resources>

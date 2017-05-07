@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<altplus.amazing.view.widget.AmazingRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rv_list_item"
+    style="@style/Layout.FillWidthHeight"
+    android:scrollbars="vertical"
+    tools:context=".view.fragment.AmazingSimpleListItemFragment" />

@@ -30,7 +30,8 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:layout_marginRight="20dp"
-        android:layout_toRightOf="@+id/tv_time_matchday"></View>
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_date_matchday"></View>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
