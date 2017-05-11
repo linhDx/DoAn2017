@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="thethao247">
+        <item>bong-da-anh-c8</item>
+        <item>La-Liga-c59</item>
+        <item>bundes-liga-c65</item>
+        <item>serie-a-c62</item>
+    </string-array>
     <string-array name="dantri_rss">
         <item>bong-da-anh</item>
         <item>bong-da-tbn</item>
@@ -18,10 +24,5 @@
         <item>serie-a</item>
         <item>tin-chuyen-nhuong</item>
     </string-array>
-    <string-array name="thethao247">
-        <item>bong-da-anh-c8</item>
-        <item>La-Liga-c59</item>
-        <item>bundes-liga-c65</item>
-        <item>serie-a-c62</item>
-    </string-array>
+
 </resources>

@@ -22,9 +22,7 @@ import retrofit2.Response;
 
 public class ArticleUtils {
 
-
-    public static List<Article> getListArticle_BDC(String league){
-        final List<Article> list = new ArrayList<>();
+    public static List<Article> getListArticle_BDC(final List<Article> list, String league){
         RssService rssService = RssService.retrofit_BDC.create(RssService.class);
         Call<RssFeed_BDC> call = rssService.getXml_BDC(league);
         call.enqueue(new Callback<RssFeed_BDC>() {
@@ -33,8 +31,7 @@ public class ArticleUtils {
                 for (Article_BDC item: response.body().getArticleBDCList()
                         ) {
                         Article a = new Article(item.getLink(), item.getTitle(),
-                                item.getDescription(), item.getImage(), item.getPubDate(),"BDC");
-                    Log.d("AAAA", a.getTitlte());
+                                item.getDescription(), item.getImage(), Utils.StringToDate_BDC(item.getPubDate()),"BDC");
                     list.add(a);
                 }
             }
@@ -55,8 +52,7 @@ public class ArticleUtils {
                 for (Article_BDC item: response.body().getArticleBDCList()
                         ) {
                     Article a = new Article(item.getLink(), item.getTitle(),
-                            item.getDescription(), item.getImage(), item.getPubDate(), "247");
-                    Log.d("AAAA", a.getTitlte());
+                            item.getDescription(), item.getImage(), Utils.StringToDate(item.getPubDate()), "247");
                     list.add(a);
                 }
             }
@@ -78,8 +74,7 @@ public class ArticleUtils {
                 for (Article_DanTri item: response.body().getArticleDTList()
                         ) {
                     Article a = new Article(item.getLink(), item.getTitle(),
-                            item.getDescription(), Utils.getImgLink(item.getDescription()), item.getPubDate(),"DT");
-                    Log.d("AAAA", a.getTitlte());
+                            item.getDescription(), Utils.getImgLink(item.getDescription()), Utils.StringToDate(item.getPubDate()),"DT");
                     list.add(a);
                 }
             }
@@ -100,8 +95,7 @@ public class ArticleUtils {
                 for (Article_DanTri item: response.body().getArticleDTList()
                         ) {
                     Article a = new Article(item.getLink(), item.getTitle(),
-                            item.getDescription(), "", item.getPubDate(),"24h");
-                    Log.d("AAAA", a.getTitlte());
+                            item.getDescription(), "", Utils.StringToDate(item.getPubDate()),"24h");
                     list.add(a);
                 }
             }

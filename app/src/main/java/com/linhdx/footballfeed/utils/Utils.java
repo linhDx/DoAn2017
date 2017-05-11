@@ -8,7 +8,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -118,5 +121,41 @@ public class Utils {
         int pEnd =des.indexOf(" />")-1;
         String url = des.substring(pFrom, pEnd);
         return  url;
+    }
+
+
+    //Thu, 11 May 2017 11:16:00 GMT+7
+    public static Date StringToDate(String str){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
+        Date date = null;
+        try {
+            date = dateFormat.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+    //Thu, 11 May 2017 16:44:35 GMT
+    public static Date StringToDate_24h(String str){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
+        Date date = null;
+        try {
+            date = dateFormat.parse(str+"+7");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    //11/05/2017 16:39:41
+    public static Date StringToDate_BDC(String str){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = null;
+        try {
+            date = dateFormat.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 }

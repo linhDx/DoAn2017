@@ -1,16 +1,17 @@
 package com.linhdx.footballfeed.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.linhdx.footballfeed.AppObjectNetWork.RssObjectNetWork.Article_BDC;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.linhdx.footballfeed.R;
-import com.squareup.picasso.Picasso;
+import com.linhdx.footballfeed.View.Activity.MainActivity;
+import com.linhdx.footballfeed.entity.Article;
+import com.linhdx.footballfeed.utils.AdapterUtil;
 
 import java.util.List;
 
@@ -18,71 +19,66 @@ import java.util.List;
  * Created by shine on 19/04/2017.
  */
 
-public class CustomListViewListArticle extends BaseAdapter {
-    class ViewHolder {
-        ImageView appIcon;
-        TextView appName;
-        TextView size;
+public class CustomListViewListArticle extends RecyclerView.Adapter<CustomListViewListArticle.ViewHolder> {
+    private List<Article> mListArticle;
+    private LayoutInflater mLayoutInflater;
+    private MainActivity mContext = null;
+    private OnItemClickListener iClick;
+
+    public CustomListViewListArticle(List<Article> mListArticle, LayoutInflater mLayoutInflater, MainActivity mContext) {
+        this.mListArticle = mListArticle;
+        this.mLayoutInflater = mLayoutInflater;
+        this.mContext = mContext;
     }
 
-    public List<Article_BDC> mlistAppInfo;
-    LayoutInflater infater = null;
-    private Context mContext;
-    public CustomListViewListArticle(Context context, List<Article_BDC> apps) {
-        infater = LayoutInflater.from(context);
-       this.mContext = context;
-        this.mlistAppInfo = apps;
-    }
-
-    @Override
-    public int getCount() {
-        // TODO Auto-generated method stub
-        return mlistAppInfo.size();
+    public CustomListViewListArticle(Context context,List<Article> mListArticle) {
+        this.mListArticle = mListArticle;
+        this.mLayoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
-    public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return mlistAppInfo.get(position);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = mLayoutInflater.inflate(R.layout.item_youtube_video, parent, false);
+        return new ViewHolder(itemView);
     }
 
     @Override
-    public long getItemId(int position) {
-        // TODO Auto-generated method stub
-        return position;
-    }
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        final Article item = mListArticle.get(position);
+        if(item!= null){
+            holder.title = AdapterUtil.detail(holder.itemView, R.id.lblVideoName, item.getTitlte());
+            holder.pubDate = AdapterUtil.detail(holder.itemView, R.id.lblDescription, item.getPubDate().toString());
+            holder.imgThumb = AdapterUtil.image(holder.itemView, R.id.imgThumb, item.getImage());
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
-        if (convertView == null) {
-            convertView = infater.inflate(R.layout.item_list_articles,
-                    null);
-            holder = new ViewHolder();
-            holder.appIcon = (ImageView) convertView
-                    .findViewById(R.id.app_icon);
-            holder.appName = (TextView) convertView
-                    .findViewById(R.id.app_name);
-            holder.size = (TextView) convertView
-                    .findViewById(R.id.app_size);
-
-
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(iClick!= null){
+                        iClick.onClickListener(position);
+                    }
+                }
+            });
         }
-        final Article_BDC item = (Article_BDC) getItem(position);
-        if (item != null) {
-
-            //   holder.appIcon.setImageResource(item.);
-            holder.appName.setText(item.getTitle());
-            holder.size.setText(item.getPubDate());
-            Picasso.with(mContext).load(item.getImage()).into(holder.appIcon);
-
-        }
-
-
-        return convertView;
     }
 
+    @Override
+    public int getItemCount() {
+        return mListArticle.size();
+    }
+    public void setOnItemClickListener(OnItemClickListener iClick) {
+      this.iClick = iClick;
+    }
+
+    public interface OnItemClickListener {
+        void onClickListener(int position);
+    }
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView title;
+        TextView pubDate;
+        SimpleDraweeView imgThumb;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
 }

@@ -2,16 +2,19 @@ package com.linhdx.footballfeed.entity;
 
 import com.orm.SugarRecord;
 
+import java.util.Date;
+
 /**
  * Created by shine on 30/04/2017.
  */
 
 public class Article extends SugarRecord{
-    String link, titlte, description,image,pubDate, webName;
+    String link, titlte, description,image, webName;
+    Date pubDate;
     public Article() {
     }
 
-    public Article(String link, String titlte, String description, String image, String pubDate, String webName) {
+    public Article(String link, String titlte, String description, String image, Date pubDate, String webName) {
         this.link = link;
         this.titlte = titlte;
         this.description = description;
@@ -52,11 +55,11 @@ public class Article extends SugarRecord{
         this.image = image;
     }
 
-    public String getPubDate() {
+    public Date getPubDate() {
         return pubDate;
     }
 
-    public void setPubDate(String pubDate) {
+    public void setPubDate(Date pubDate) {
         this.pubDate = pubDate;
     }
 

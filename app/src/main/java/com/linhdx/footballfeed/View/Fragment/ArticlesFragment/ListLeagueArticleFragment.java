@@ -45,7 +45,7 @@ public class ListLeagueArticleFragment extends Fragment {
 
     private void creatList(){
         list = new ArrayList<>();
-        for(int i =0; i< 6; i++){
+        for(int i =0; i< 4; i++){
             list.add(new LeagueNameRss(AppConstant.LIST_LEAGUE_RSS[i], AppConstant.LIST_LEAGUE_VALUE_RSS[i]));
         }
         listView.setAdapter(new CustomListViewListLeagueArticle(list, getActivity()));

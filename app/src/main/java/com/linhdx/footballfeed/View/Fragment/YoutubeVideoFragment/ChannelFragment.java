@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -84,6 +85,7 @@ public class ChannelFragment extends AmazingBaseFragment<YouTubeVideo> {
         mArcView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                listVideos.clear();
                 getListVideos(false);
                 mArcView.refreshList();
             }
@@ -118,7 +120,6 @@ public class ChannelFragment extends AmazingBaseFragment<YouTubeVideo> {
     }
 
     private void executeRetrofitApi(final String url, int maxresult, final String nextPageToken) {
-//        if (NetworkUtil.isNetworkAvailable(getContext())) {
         retrofitApi = RetrofitBuilder.getRetrofit(WebServiceConfig.BASE_URL, null, 5000, 5000).create(RetrofitApiInterface.class);
             retrofitApi.getListVideos(url, maxresult, nextPageToken)
                     .enqueue(new Callback<YoutubeWrapper>() {
@@ -146,9 +147,6 @@ public class ChannelFragment extends AmazingBaseFragment<YouTubeVideo> {
                             mArcView.refreshList();
                         }
                     });
-//        } else {
-//            showToast(R.string.noNetwork);
-//        }
     }
 
     protected void showToast(int idString) {

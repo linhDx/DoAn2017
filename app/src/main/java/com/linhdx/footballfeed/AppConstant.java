@@ -13,8 +13,14 @@ public class AppConstant {
     public static final String TEAM_PLAYER = BASE_URL + "teams/{id}/players";
     public static final String TEAM_COMPETITIONS = BASE_URL + "teams/{id}/fixtures";
 
-    public static final String[] LIST_LEAGUE_RSS ={"Premier League","Premier Division", "Buldesliga","Champions League","Serie A", "Transfer"};
-    public static final String[] LIST_LEAGUE_VALUE_RSS= {"bong-da-anh", "la-liga", "bundesliga", "champions-league","serie-a","tin-chuyen-nhuong"};
+    public static final String[] LIST_LEAGUE_RSS ={"Premier League","Premier Division", "Buldesliga","Serie A"};
+    public static final String[] LIST_LEAGUE_VALUE_RSS= {"1", "2", "3", "4"};
+    public static final String[] LIST_ARTICLE_PL={"bong-da-anh-c8","bong-da-anh","172","bong-da-anh"};
+    public static final String[] LIST_ARTICLE_PD={"La-Liga-c59","bong-da-tbn","180","la-liga"};
+    public static final String[] LIST_ARTICLE_BL={"bundes-liga-c65","error","193","bundesliga"};
+    public static final String[] LIST_ARTICLE_SA={"serie-a-c62","error","176","serie-a"};
+
+
 
     public static final String SP_TEAM_SAVED="team_saved";
     public static final String SP_PLAYER_SAVED ="player_saved";

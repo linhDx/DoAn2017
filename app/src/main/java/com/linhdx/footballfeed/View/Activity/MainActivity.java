@@ -286,7 +286,7 @@ public class MainActivity extends AmazingBaseActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            new getPlayer().execute();
+//            new getPlayer().execute();
             pd.dismiss();
         }
     }
@@ -368,30 +368,5 @@ public class MainActivity extends AmazingBaseActivity {
         }
     }
 
-    public class getListArtcle extends AsyncTask<Void, Void, Void>{
-        ProgressDialog pd;
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pd = new ProgressDialog(MainActivity.this);
-            pd.show();
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            pd.dismiss();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            ArticleUtils.getListArticle_247("bong-da-anh-c8");
-            ArticleUtils.getListArticle_DT("bong-da-anh");
-            ArticleUtils.getListArticle_24h_1("172");
-            ArticleUtils.getListArticle_BDC("bong-da-anh");
-
-            return null;
-        }
-    }
 }

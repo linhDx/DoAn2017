@@ -29,50 +29,32 @@ import java.io.FileOutputStream;
 public class PageArticleFragment extends Fragment{
     WebView xWalkView;
     String url;
-    File file ;
-    String filename = "myfile2";
-    private String filepath = "MyFileStorage";
-    String detail = "";
-    FileOutputStream outputStream;
-//    private class  ResourceClient extends XWalkResourceClient {
-//
-//        public ResourceClient(XWalkView view) {
-//            super(view);
-//        }
-//
-//        @Override
-//        public void onLoadStarted(XWalkView view, String url) {
-//            super.onLoadStarted(view, url);
-//        }
-//
-//        @Override
-//        public void onLoadFinished(XWalkView view, String url) {
-//            super.onLoadFinished(view, url);
-//        }
-//    }
-
+    String webName;
+    String detail="";
+    public static final String PARA1 = "param1";
+    public static final String PARA2 = "param2";
     public PageArticleFragment() {
     }
-
+    public static PageArticleFragment newInstance(String webName, String Url) {
+        PageArticleFragment f = new PageArticleFragment();
+        Bundle args = new Bundle();
+        args.putString(PARA1, webName);
+        args.putString(PARA2, Url);
+        f.setArguments(args);
+        return f;
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Bundle bundle = getArguments();
-        if( bundle!= null && bundle.getString("link")!= null){
-            url = bundle.getString("link");
-            Toast.makeText(getActivity(), url, Toast.LENGTH_LONG).show();
-        }
+        url = getArguments().getString(PARA2);
+        webName = getArguments().getString(PARA1);
+        Log.d("AAAA", webName + ":" + url);
         return inflater.inflate(R.layout.article_page_layout, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        xWalkView = (XWalkView)view.findViewById(R.id.xWalkView);
-//        xWalkView.setResourceClient(new ResourceClient(xWalkView));
-//        XWalkPreferences.setValue("enable-javascript", true);
-//        XWalkPreferences.setValue(XWalkPreferences.JAVASCRIPT_CAN_OPEN_WINDOW, true);
-//        XWalkPreferences.setValue(XWalkPreferences.SUPPORT_MULTIPLE_WINDOWS, true);
         xWalkView = (WebView) view.findViewById(R.id.xWalkView);
         new GetData().execute();
     }
@@ -92,7 +74,7 @@ public class PageArticleFragment extends Fragment{
         protected Void doInBackground(Void... params) {
 
             try {
-                Document doc = Jsoup.connect(url).get();
+                Document doc = Jsoup.connect("http://www.bongda.com.vn/mourinho-che-bai-cdv-man-utd-d392813.html").get();
 
                 Elements title = doc.select("div.col630.fr h1");
                 Elements date = doc.select("div.author");
@@ -101,21 +83,8 @@ public class PageArticleFragment extends Fragment{
                 Elements main = doc.select("div.exp_content.news_details");
                 main.select("div.new_relation_top2.pkg.mar_bottom0").remove();
                 main.select("div.adv").remove();
-                if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {
-                    Log.e("AAAA", "ko dung duoc ");
-                }
-                else {
-                    file = new File(getActivity().getExternalFilesDir(filepath), filename);
-                    try {
-                        outputStream = new FileOutputStream(file);
-                        outputStream.write(doc.toString().getBytes());
-                        outputStream.close();
-                    } catch (Exception e) {
-                        Log.e("Exception", "File write failed: " + e.toString());
-                    }
-                }
 
-                detail += "<h2 style = \" color: red \">" + title.text()
+                detail = "<h2 style = \" color: red \">" + title.text()
                         + "</h2>";
                 detail += "<font size=\" 1.2em \" style = \" color: #005500 \"><em>"
                         + date.text() + "</em></font>";
@@ -145,19 +114,4 @@ public class PageArticleFragment extends Fragment{
 
     }
 
-    private static boolean isExternalStorageReadOnly() {
-        String extStorageState = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(extStorageState)) {
-            return true;
-        }
-        return false;
-    }
-
-    private static boolean isExternalStorageAvailable() {
-        String extStorageState = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(extStorageState)) {
-            return true;
-        }
-        return false;
-    }
 }
