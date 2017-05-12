@@ -19,5 +19,14 @@
         sha1="3c4f96ff493456651cc7bdb0b47e10eb25545a16">
         <dex dex="/home/shine/AndroidStudioProjects/FootballFeed/app/build/intermediates/pre-dexed/debug/YouTubeAndroidPlayerApi_35c2d4e9cf2b8013199eaddcfc00d8d2ba18b2f6.jar" />
     </item>
+    <item
+        is-multidex="false"
+        jar="/home/shine/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.8.3/65fd012581ded67bc20945d85c32b4598c3a9cf1/jsoup-1.8.3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="65fd012581ded67bc20945d85c32b4598c3a9cf1">
+        <dex dex="/home/shine/AndroidStudioProjects/FootballFeed/app/build/intermediates/pre-dexed/debug/jsoup-1.8.3_8bdb51f45f5884f4511a717debe9f0fa29943b65.jar" />
+    </item>
 
 </items>

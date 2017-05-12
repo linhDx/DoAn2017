@@ -3,6 +3,72 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp">
+        <ImageView
+            android:id="@+id/img_view"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_menu_header"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/ll_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:background="@color/bg_table">
+        <RadioGroup
+            android:id="@+id/my_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp">
+            <RadioButton
+                android:id="@+id/rb_pubDate"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:text="PubDate"
+                android:textColor="@color/black"
+                android:checked="true"/>
+            <RadioButton
+                android:id="@+id/rd_club"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:text="Star Football Club"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"/>
+        </RadioGroup>
+        <LinearLayout
+            android:id="@+id/ll_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select football club"
+                android:layout_marginLeft="30dp"/>
+            <LinearLayout
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_rectangle_white">
+                <Spinner
+                    android:id="@+id/spn_club"
+                    style="@style/text_normal_size_13"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:gravity="left|fill_horizontal|center_vertical"></Spinner>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
     <altplus.amazing.view.widget.AmazingRecyclerView
         android:id="@+id/lv_list_article"
         android:layout_width="match_parent"

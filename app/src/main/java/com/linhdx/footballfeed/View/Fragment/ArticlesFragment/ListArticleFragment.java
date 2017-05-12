@@ -3,6 +3,8 @@ package com.linhdx.footballfeed.View.Fragment.ArticlesFragment;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,7 +18,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.linhdx.footballfeed.AppConstant;
@@ -53,13 +59,17 @@ import retrofit2.Response;
  */
 // hien thi cac bai bao cho giai dau
 public class ListArticleFragment extends Fragment {
-    private List<Article> list, showList;
-    private int count;
+    private List<Article> list, showList,listClub;
+    private int count=1;
     private AmazingRecyclerView lv;
     private CustomListViewListArticle mAdapter;
     private String league;
-    private boolean isDT;
-
+    private boolean isDT=true;
+    private Spinner mSpinner;
+    private ImageView imgMenu;
+    private LinearLayout mFilter, mLLSpinner;
+    private boolean isMenuOpen = false;
+    private RadioGroup radioGroup;
     public ListArticleFragment() {
     }
 
@@ -69,7 +79,6 @@ public class ListArticleFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null && bundle.getString("league") != null) {
             league = bundle.getString("league");
-            Toast.makeText(getActivity(), league, Toast.LENGTH_LONG).show();
         } else {
             league = "error";
         }
@@ -79,12 +88,18 @@ public class ListArticleFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         lv = (AmazingRecyclerView) view.findViewById(R.id.lv_list_article);
         lv.setLayoutManager(new LinearLayoutManager(getActivity()));
+        imgMenu = (ImageView)view.findViewById(R.id.img_view);
+        mFilter = (LinearLayout)view.findViewById(R.id.ll_filter);
+        mLLSpinner = (LinearLayout)view.findViewById(R.id.ll_spinner);
+        mSpinner = (Spinner) view.findViewById(R.id.spn_club);
+        radioGroup = (RadioGroup)view.findViewById(R.id.my_radio_group);
 
-        count = 1;
         list = new ArrayList<>();
         showList = new ArrayList<>();
+        listClub = new ArrayList<>();
 
         mAdapter = new CustomListViewListArticle(getMainActivity(), showList);
         lv.setAdapter(mAdapter);
@@ -93,20 +108,26 @@ public class ListArticleFragment extends Fragment {
     }
 
     private void initData() {
-        isDT = true;
+
         if (league.compareTo("error") != 0) {
             switch (league) {
                 case "1":
                     new getListArtcle().execute(AppConstant.LIST_ARTICLE_PL);
+                    setupSpiner(1);
                     break;
                 case "2":
                     new getListArtcle().execute(AppConstant.LIST_ARTICLE_PD);
+                    setupSpiner(2);
                     break;
                 case "3":
+                    isDT =false;
                     new getListArtcle().execute(AppConstant.LIST_ARTICLE_BL);
+                    setupSpiner(3);
                     break;
                 case "4":
+                    isDT =false;
                     new getListArtcle().execute(AppConstant.LIST_ARTICLE_SA);
+                    setupSpiner(4);
                     break;
             }
         }
@@ -139,7 +160,45 @@ public class ListArticleFragment extends Fragment {
                 Fragment a = PageArticleFragment.newInstance(list.get(position).getWebName(), list.get(position).getLink());
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.add(R.id.article_container, a).commit();
+                ft.add(R.id.article_container, a).addToBackStack(null).commit();
+            }
+        });
+
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selected_val=mSpinner.getSelectedItem().toString();
+                Toast.makeText(getMainActivity(), selected_val ,
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        imgMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isMenuOpen =!isMenuOpen;
+                if(isMenuOpen){
+                    mFilter.setVisibility(View.VISIBLE);
+                } else {
+                    mFilter.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                if(checkedId ==R.id.rb_pubDate){
+                    showListArticle(list,1);
+                    mLLSpinner.setVisibility(View.GONE);
+                } else if (checkedId == R.id.rd_club){
+                    mLLSpinner.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -190,9 +249,10 @@ public class ListArticleFragment extends Fragment {
                 for (Article_BDC item : response.body().getArticleBDCList()
                         ) {
                     Article a = new Article(item.getLink(), item.getTitle(),
-                            item.getDescription(), item.getImage(), Utils.StringToDate_BDC(item.getPubDate()), "BDC");
+                            item.getDescription(), item.getImage(), Utils.StringToDate_BDC(item.getPubDate()), AppConstant.LIST_WEBNAME[0]);
                     list.add(a);
                 }
+                Log.d("AAAA", list.size() +"A");
                 if (isDT) {
                     if (list.size() == 75) {
                         sortList(list);
@@ -221,9 +281,10 @@ public class ListArticleFragment extends Fragment {
                 for (Article_DanTri item : response.body().getArticleDTList()
                         ) {
                     Article a = new Article(item.getLink(), item.getTitle(),
-                            item.getDescription(), "", Utils.StringToDate_24h(item.getPubDate()), "24h");
+                            item.getDescription(), "", Utils.StringToDate_24h(item.getPubDate()), AppConstant.LIST_WEBNAME[1]);
                     list.add(a);
                 }
+                Log.d("AAAA", list.size() +"B");
                 if (isDT) {
                     if (list.size() == 75) {
                         sortList(list);
@@ -252,9 +313,10 @@ public class ListArticleFragment extends Fragment {
                 for (Article_BDC item : response.body().getArticleBDCList()
                         ) {
                     Article a = new Article(item.getLink(), item.getTitle(),
-                            item.getDescription(), item.getImage(), Utils.StringToDate(item.getPubDate()), "247");
+                            item.getDescription(), item.getImage(), Utils.StringToDate(item.getPubDate()), AppConstant.LIST_WEBNAME[3]);
                     list.add(a);
                 }
+                Log.d("AAAA", list.size() +"C");
                 if (isDT) {
                     if (list.size() == 75) {
                         sortList(list);
@@ -283,9 +345,10 @@ public class ListArticleFragment extends Fragment {
                 for (Article_DanTri item : response.body().getArticleDTList()
                         ) {
                     Article a = new Article(item.getLink(), item.getTitle(),
-                            item.getDescription(), Utils.getImgLink(item.getDescription()), Utils.StringToDate(item.getPubDate()), "DT");
+                            item.getDescription(), Utils.getImgLink(item.getDescription()), Utils.StringToDate(item.getPubDate()), AppConstant.LIST_WEBNAME[2]);
                     list.add(a);
                 }
+                Log.d("AAAA", list.size() +"D");
                 if (isDT) {
                     if (list.size() == 75) {
                         sortList(list);
@@ -349,11 +412,41 @@ public class ListArticleFragment extends Fragment {
                 mAdapter.notifyDataSetChanged();
                 lv.refreshList();
                 break;
+            default:
+                showList.clear();
+                for (int i = 0; i < list.size(); i++) {
+                    showList.add(list.get(i));
+                }
+                mAdapter.notifyDataSetChanged();
+                lv.refreshList();
+                break;
         }
     }
 
     protected MainActivity getMainActivity() {
         return (MainActivity) getActivity();
+    }
+
+    private void setupSpiner(int id){
+        ArrayAdapter<CharSequence> adapter;
+        switch (id){
+            case 1:
+                adapter = ArrayAdapter.createFromResource(getActivity(), R.array.Premier_league, android.R.layout.simple_spinner_item);
+                break;
+            case 2:
+                adapter = ArrayAdapter.createFromResource(getActivity(), R.array.Premier_division, android.R.layout.simple_spinner_item);
+                break;
+            case 3:
+                adapter = ArrayAdapter.createFromResource(getActivity(), R.array.Buldesliga, android.R.layout.simple_spinner_item);
+                break;
+            case 4:
+                adapter = ArrayAdapter.createFromResource(getActivity(), R.array.Serie_A, android.R.layout.simple_spinner_item);
+                break;
+            default:
+                adapter= ArrayAdapter.createFromResource(getActivity(), R.array.none, android.R.layout.simple_spinner_item);
+        }
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setAdapter(adapter);
     }
 
 }

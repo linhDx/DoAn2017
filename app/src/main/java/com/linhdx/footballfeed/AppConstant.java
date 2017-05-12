@@ -20,6 +20,7 @@ public class AppConstant {
     public static final String[] LIST_ARTICLE_BL={"bundes-liga-c65","error","193","bundesliga"};
     public static final String[] LIST_ARTICLE_SA={"serie-a-c62","error","176","serie-a"};
 
+    public static final String[] LIST_WEBNAME= {"BDC", "24h", "DT", "247"};
 
 
     public static final String SP_TEAM_SAVED="team_saved";

@@ -5,4 +5,33 @@
     <string name="error_player">Initial YouTubePlayer error(%1$s)</string>
     <string name="googleApiKey">AIzaSyCboqBRA3mJ-BHBCaA7GgIUmoLjV-w3PWE</string>
 
+    <string-array name="Premier_league">
+        <item>Chelsea FC</item>
+        <item>Liverpool FC</item>
+        <item>Arsenal FC</item>
+        <item>Manchester United FC</item>
+        <item>Manchester City FC</item>
+        <item>Tottenham Hotspur FC</item>
+        <item>Everton FC</item>
+        <item>Leicester City FC</item>
+    </string-array>
+    <string-array name="Premier_division">
+        <item>FC Barcelona</item>
+        <item>Villarreal CF</item>
+        <item>Sevilla FC</item>
+        <item>Real Madrid CF</item>
+        <item>Club Atlético de Madrid</item>
+    </string-array>
+    <string-array name="Buldesliga">
+        <item>Borussia Dortmund</item>
+        <item>FC Bayern München</item>
+    </string-array>
+    <string-array name="Serie_A">
+        <item>AS Roma</item>
+        <item>Juventus Turin</item>
+        <item>AC Milan</item>
+        <item>Inter Milan FC</item>
+    </string-array>
+    <string-array name="none">
+    </string-array>
 </resources>

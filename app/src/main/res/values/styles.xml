@@ -43,4 +43,8 @@
     <style name="Text.ItemVideo.Content">
         <item name="android:singleLine">true</item>
     </style>
+    <style name="text_normal_size_13">
+        <item name="android:textSize">13dp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>
