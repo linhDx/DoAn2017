@@ -131,7 +131,17 @@ public class Utils {
         try {
             date = dateFormat.parse(str);
         } catch (ParseException e) {
+            String dates[] = str.split(" ");
+            Calendar cal = new GregorianCalendar();
+            cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dates[1]));
+            cal.set(Calendar.YEAR, Integer.parseInt(dates[3]));
+            cal.set(Calendar.MONTH, convertMonth(dates[2]) -1);
+            String hours [] = dates[4].split(":");
+            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hours[0]));
+            cal.set(Calendar.MINUTE, Integer.parseInt(hours[1]));
+            date = cal.getTime();
             e.printStackTrace();
+            Log.d("AAAA", "error");
         }
         return date;
     }
@@ -142,7 +152,17 @@ public class Utils {
         try {
             date = dateFormat.parse(str+"+7");
         } catch (ParseException e) {
+            String dates[] = str.split(" ");
+            Calendar cal = new GregorianCalendar();
+            cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dates[1]));
+            cal.set(Calendar.YEAR, Integer.parseInt(dates[3]));
+            cal.set(Calendar.MONTH, convertMonth(dates[2]) -1);
+            String hours [] = dates[4].split(":");
+            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hours[0]));
+            cal.set(Calendar.MINUTE, Integer.parseInt(hours[1]));
+            date = cal.getTime();
             e.printStackTrace();
+            Log.d("AAAA", "error");
         }
         return date;
     }
@@ -154,8 +174,63 @@ public class Utils {
         try {
             date = dateFormat.parse(str);
         } catch (ParseException e) {
+            String dates[] = str.split(" ");
+            String date1[]  = dates[0].split("/");
+            Calendar cal = new GregorianCalendar();
+            cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(date1[0]));
+            cal.set(Calendar.YEAR, Integer.parseInt(date1[2]));
+            cal.set(Calendar.MONTH, convertMonth(date1[1]) -1);
+            String hours [] = dates[2].split(":");
+            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hours[0]));
+            cal.set(Calendar.MINUTE, Integer.parseInt(hours[1]));
+            date = cal.getTime();
             e.printStackTrace();
+            Log.d("AAAA", "error");
         }
         return date;
+    }
+
+    private static int convertMonth(String MMM){
+        int month;
+        switch (MMM){
+            case "Jan":
+                month =1;
+                break;
+            case "Feb":
+                month =2;
+                break;
+            case "Mar":
+                month =3;
+                break;
+            case "Apr":
+                month =4;
+                break;
+            case "May":
+                month =5;
+                break;
+            case "Jun":
+                month =6;
+                break;
+            case "Jul":
+                month =7;
+                break;
+            case "Aug":
+                month =8;
+                break;
+            case "Sep":
+                month =9;
+                break;
+            case "Oct":
+                month =10;
+                break;
+            case "Nov":
+                month =11;
+                break;
+            case "Dec":
+                month =12;
+                break;
+            default: month =0;
+        }
+        return month;
     }
 }

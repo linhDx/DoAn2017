@@ -223,7 +223,7 @@ public class MainActivity extends AmazingBaseActivity {
                     TeamStatus a = new TeamStatus(item.getLinks().getFixtures().getHref(),
                             item.getLinks().getPlayers().getHrefTeamPlay(),
                             item.getName(), item.getShortName(), item.getSquadMarketValue(),
-                            item.getCrestUrl());
+                            item.getCrestUrl(),1);
                     listTeams.add(a);
                 }
             } catch (IOException e) {
@@ -238,7 +238,7 @@ public class MainActivity extends AmazingBaseActivity {
                     TeamStatus a = new TeamStatus(item.getLinks().getFixtures().getHref(),
                             item.getLinks().getPlayers().getHrefTeamPlay(),
                             item.getName(), item.getShortName(), item.getSquadMarketValue(),
-                            item.getCrestUrl());
+                            item.getCrestUrl(),2);
                     listTeams.add(a);
                 }
             } catch (IOException e) {
@@ -252,7 +252,7 @@ public class MainActivity extends AmazingBaseActivity {
                     TeamStatus a = new TeamStatus(item.getLinks().getFixtures().getHref(),
                             item.getLinks().getPlayers().getHrefTeamPlay(),
                             item.getName(), item.getShortName(), item.getSquadMarketValue(),
-                            item.getCrestUrl());
+                            item.getCrestUrl(),3);
                     listTeams.add(a);
                 }
             } catch (IOException e) {
@@ -267,7 +267,7 @@ public class MainActivity extends AmazingBaseActivity {
                     TeamStatus a = new TeamStatus(item.getLinks().getFixtures().getHref(),
                             item.getLinks().getPlayers().getHrefTeamPlay(),
                             item.getName(), item.getShortName(), item.getSquadMarketValue(),
-                            item.getCrestUrl());
+                            item.getCrestUrl(),4);
                     listTeams.add(a);
                 }
             } catch (IOException e) {

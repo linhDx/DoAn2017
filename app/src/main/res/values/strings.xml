@@ -6,6 +6,7 @@
     <string name="googleApiKey">AIzaSyCboqBRA3mJ-BHBCaA7GgIUmoLjV-w3PWE</string>
 
     <string-array name="Premier_league">
+        <item>--Select Football Club--</item>
         <item>Chelsea FC</item>
         <item>Liverpool FC</item>
         <item>Arsenal FC</item>
@@ -16,6 +17,7 @@
         <item>Leicester City FC</item>
     </string-array>
     <string-array name="Premier_division">
+        <item>--Select Football Club--</item>
         <item>FC Barcelona</item>
         <item>Villarreal CF</item>
         <item>Sevilla FC</item>
@@ -23,10 +25,12 @@
         <item>Club Atlético de Madrid</item>
     </string-array>
     <string-array name="Buldesliga">
+        <item>--Select Football Club--</item>
         <item>Borussia Dortmund</item>
         <item>FC Bayern München</item>
     </string-array>
     <string-array name="Serie_A">
+        <item>--Select Football Club--</item>
         <item>AS Roma</item>
         <item>Juventus Turin</item>
         <item>AC Milan</item>

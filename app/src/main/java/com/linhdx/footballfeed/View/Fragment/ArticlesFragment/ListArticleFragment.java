@@ -35,6 +35,7 @@ import com.linhdx.footballfeed.AppObjectNetWork.RssObjectNetWork.RssFeed_BDC;
 import com.linhdx.footballfeed.NetworkAPI.RssService;
 import com.linhdx.footballfeed.R;
 import com.linhdx.footballfeed.entity.Article;
+import com.linhdx.footballfeed.entity.TeamStatus;
 import com.linhdx.footballfeed.utils.ArticleUtils;
 import com.linhdx.footballfeed.utils.Utils;
 
@@ -59,17 +60,20 @@ import retrofit2.Response;
  */
 // hien thi cac bai bao cho giai dau
 public class ListArticleFragment extends Fragment {
-    private List<Article> list, showList,listClub;
-    private int count=1;
+    private List<Article> list, showList, listClub;
+    private int count = 1;
     private AmazingRecyclerView lv;
     private CustomListViewListArticle mAdapter;
     private String league;
-    private boolean isDT=true;
+    private boolean isDT = true;
     private Spinner mSpinner;
     private ImageView imgMenu;
     private LinearLayout mFilter, mLLSpinner;
     private boolean isMenuOpen = false;
     private RadioGroup radioGroup;
+    private List<TeamStatus> listTeam;
+    private boolean isPubDate = true;
+
     public ListArticleFragment() {
     }
 
@@ -91,11 +95,11 @@ public class ListArticleFragment extends Fragment {
 
         lv = (AmazingRecyclerView) view.findViewById(R.id.lv_list_article);
         lv.setLayoutManager(new LinearLayoutManager(getActivity()));
-        imgMenu = (ImageView)view.findViewById(R.id.img_view);
-        mFilter = (LinearLayout)view.findViewById(R.id.ll_filter);
-        mLLSpinner = (LinearLayout)view.findViewById(R.id.ll_spinner);
+        imgMenu = (ImageView) view.findViewById(R.id.img_view);
+        mFilter = (LinearLayout) view.findViewById(R.id.ll_filter);
+        mLLSpinner = (LinearLayout) view.findViewById(R.id.ll_spinner);
         mSpinner = (Spinner) view.findViewById(R.id.spn_club);
-        radioGroup = (RadioGroup)view.findViewById(R.id.my_radio_group);
+        radioGroup = (RadioGroup) view.findViewById(R.id.my_radio_group);
 
         list = new ArrayList<>();
         showList = new ArrayList<>();
@@ -120,12 +124,12 @@ public class ListArticleFragment extends Fragment {
                     setupSpiner(2);
                     break;
                 case "3":
-                    isDT =false;
+                    isDT = false;
                     new getListArtcle().execute(AppConstant.LIST_ARTICLE_BL);
                     setupSpiner(3);
                     break;
                 case "4":
-                    isDT =false;
+                    isDT = false;
                     new getListArtcle().execute(AppConstant.LIST_ARTICLE_SA);
                     setupSpiner(4);
                     break;
@@ -137,27 +141,33 @@ public class ListArticleFragment extends Fragment {
         lv.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                showList.clear();
-                showListArticle(list, 1);
-                lv.refreshList();
+                if (isPubDate) {
+                    showList.clear();
+                    showListArticle(list, 1);
+                    lv.refreshList();
+                } else {
+                    lv.refreshList();
+                }
             }
         });
         lv.setOnLoadMoreListener(new AmazingRecyclerView.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                if (count < 4) {
-                    count = count + 1;
+                if (isPubDate) {
+                    if (count < 4) {
+                        count = count + 1;
+                    }
+                    mAdapter.notifyItemChanged(list.size() - 1);
+                    lv.recyclerViewActual.smoothScrollToPosition(list.size());
+                    showListArticle(list, count);
                 }
-                mAdapter.notifyItemChanged(list.size() - 1);
-                lv.recyclerViewActual.smoothScrollToPosition(list.size());
-                showListArticle(list, count);
             }
         });
         mAdapter.setOnItemClickListener(new CustomListViewListArticle.OnItemClickListener() {
             @Override
             public void onClickListener(int position) {
                 // chuyen trang xem
-                Fragment a = PageArticleFragment.newInstance(list.get(position).getWebName(), list.get(position).getLink());
+                Fragment a = PageArticleFragment.newInstance(showList.get(position).getWebName(), showList.get(position).getLink());
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.add(R.id.article_container, a).addToBackStack(null).commit();
@@ -167,9 +177,10 @@ public class ListArticleFragment extends Fragment {
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selected_val=mSpinner.getSelectedItem().toString();
-                Toast.makeText(getMainActivity(), selected_val ,
-                        Toast.LENGTH_SHORT).show();
+                String selected_val = mSpinner.getSelectedItem().toString();
+                if (position != 0) {
+                    new GetListArticleClub().execute(selected_val);
+                }
             }
 
             @Override
@@ -181,8 +192,8 @@ public class ListArticleFragment extends Fragment {
         imgMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isMenuOpen =!isMenuOpen;
-                if(isMenuOpen){
+                isMenuOpen = !isMenuOpen;
+                if (isMenuOpen) {
                     mFilter.setVisibility(View.VISIBLE);
                 } else {
                     mFilter.setVisibility(View.GONE);
@@ -193,10 +204,12 @@ public class ListArticleFragment extends Fragment {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                if(checkedId ==R.id.rb_pubDate){
-                    showListArticle(list,1);
+                if (checkedId == R.id.rb_pubDate) {
+                    isPubDate = true;
+                    showListArticle(list, 1);
                     mLLSpinner.setVisibility(View.GONE);
-                } else if (checkedId == R.id.rd_club){
+                } else if (checkedId == R.id.rd_club) {
+                    isPubDate = false;
                     mLLSpinner.setVisibility(View.VISIBLE);
                 }
             }
@@ -248,11 +261,11 @@ public class ListArticleFragment extends Fragment {
             public void onResponse(Call<RssFeed_BDC> call, Response<RssFeed_BDC> response) {
                 for (Article_BDC item : response.body().getArticleBDCList()
                         ) {
-                    Article a = new Article(item.getLink(), item.getTitle(),
+                    Article a = new Article(item.getLink(), item.getTitle().trim(),
                             item.getDescription(), item.getImage(), Utils.StringToDate_BDC(item.getPubDate()), AppConstant.LIST_WEBNAME[0]);
                     list.add(a);
+                    Log.d("AAAA", "A" + a.getTitlte());
                 }
-                Log.d("AAAA", list.size() +"A");
                 if (isDT) {
                     if (list.size() == 75) {
                         sortList(list);
@@ -284,7 +297,7 @@ public class ListArticleFragment extends Fragment {
                             item.getDescription(), "", Utils.StringToDate_24h(item.getPubDate()), AppConstant.LIST_WEBNAME[1]);
                     list.add(a);
                 }
-                Log.d("AAAA", list.size() +"B");
+                Log.d("AAAA", list.size() + "B");
                 if (isDT) {
                     if (list.size() == 75) {
                         sortList(list);
@@ -316,7 +329,7 @@ public class ListArticleFragment extends Fragment {
                             item.getDescription(), item.getImage(), Utils.StringToDate(item.getPubDate()), AppConstant.LIST_WEBNAME[3]);
                     list.add(a);
                 }
-                Log.d("AAAA", list.size() +"C");
+                Log.d("AAAA", list.size() + "C");
                 if (isDT) {
                     if (list.size() == 75) {
                         sortList(list);
@@ -347,8 +360,9 @@ public class ListArticleFragment extends Fragment {
                     Article a = new Article(item.getLink(), item.getTitle(),
                             item.getDescription(), Utils.getImgLink(item.getDescription()), Utils.StringToDate(item.getPubDate()), AppConstant.LIST_WEBNAME[2]);
                     list.add(a);
+                    Log.d("AAAA", item.getPubDate());
                 }
-                Log.d("AAAA", list.size() +"D");
+                Log.d("AAAA", list.size() + "D");
                 if (isDT) {
                     if (list.size() == 75) {
                         sortList(list);
@@ -372,7 +386,9 @@ public class ListArticleFragment extends Fragment {
         Collections.sort(lt, new Comparator<Article>() {
             @Override
             public int compare(Article o1, Article o2) {
-                return o1.getPubDate().compareTo(o2.getPubDate());
+                if (o1.getPubDate() != null && o2.getPubDate() != null) {
+                    return o1.getPubDate().compareTo(o2.getPubDate());
+                } else return 2;
             }
         });
         Collections.reverse(lt);
@@ -427,9 +443,9 @@ public class ListArticleFragment extends Fragment {
         return (MainActivity) getActivity();
     }
 
-    private void setupSpiner(int id){
+    private void setupSpiner(int id) {
         ArrayAdapter<CharSequence> adapter;
-        switch (id){
+        switch (id) {
             case 1:
                 adapter = ArrayAdapter.createFromResource(getActivity(), R.array.Premier_league, android.R.layout.simple_spinner_item);
                 break;
@@ -443,10 +459,91 @@ public class ListArticleFragment extends Fragment {
                 adapter = ArrayAdapter.createFromResource(getActivity(), R.array.Serie_A, android.R.layout.simple_spinner_item);
                 break;
             default:
-                adapter= ArrayAdapter.createFromResource(getActivity(), R.array.none, android.R.layout.simple_spinner_item);
+                adapter = ArrayAdapter.createFromResource(getActivity(), R.array.none, android.R.layout.simple_spinner_item);
         }
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(adapter);
+        mSpinner.setSelection(0);
     }
 
+    public class GetListArticleClub extends AsyncTask<String, Void, Void> {
+        ProgressDialog pd;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd = new ProgressDialog(getActivity());
+            pd.show();
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            String club;
+            club = params[0];
+            List<TeamStatus> listTeam;
+            switch (league) {
+                case "1":
+                    listTeam = TeamStatus.findWithQuery(TeamStatus.class, "Select * from TEAM_STATUS where FAMOUS = ?", "1");
+                    break;
+                case "2":
+                    listTeam = TeamStatus.findWithQuery(TeamStatus.class, "Select * from TEAM_STATUS where FAMOUS = ?", "2");
+                    break;
+                case "3":
+                    listTeam = TeamStatus.findWithQuery(TeamStatus.class, "Select * from TEAM_STATUS where FAMOUS = ?", "3");
+                    break;
+                case "4":
+                    listTeam = TeamStatus.findWithQuery(TeamStatus.class, "Select * from TEAM_STATUS where FAMOUS = ?", "4");
+                    break;
+                default:
+                    listTeam = TeamStatus.listAll(TeamStatus.class);
+            }
+
+            TeamStatus clubStar = getStarClub(listTeam, club);
+            String shortName[] = clubStar.getShortName().split("-");
+            showList.clear();
+            for (Article item : list
+                    ) {
+                for (String name : shortName
+                        ) {
+                    if (item.getTitlte().toLowerCase().contains(name.toLowerCase())) {
+                        showList.add(item);
+                    }
+                }
+            }
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.notifyDataSetChanged();
+                    lv.refreshList();
+                    isMenuOpen = !isMenuOpen;
+                    mFilter.setVisibility(View.GONE);
+                }
+            });
+
+
+//            Log.d("AAAA", clubStar.getName() + "AAAA");
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            pd.dismiss();
+
+        }
+    }
+
+    private TeamStatus getStarClub(List<TeamStatus> listTS, String name) {
+        TeamStatus club = new TeamStatus();
+        for (TeamStatus t : listTS
+                ) {
+            if (t.getName().compareTo(name) == 0) {
+                club = t;
+//                Log.d("AAAA", club.getName());
+                break;
+            }
+        }
+        return club;
+    }
 }

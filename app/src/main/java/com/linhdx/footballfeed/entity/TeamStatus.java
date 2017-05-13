@@ -8,17 +8,18 @@ import com.orm.SugarRecord;
 
 public class TeamStatus extends SugarRecord{
     private String competitions,players, name, shortName, merketValue, image;
-
+    private int famous;
     public TeamStatus() {
     }
 
-    public TeamStatus(String competitions, String players, String name, String shortName, String merketValue, String image) {
+    public TeamStatus(String competitions, String players, String name, String shortName, String merketValue, String image, int famous) {
         this.competitions = competitions;
         this.players = players;
         this.name = name;
         this.shortName = shortName;
         this.merketValue = merketValue;
         this.image = image;
+        this.famous = famous;
     }
 
     public String getCompetitions() {
