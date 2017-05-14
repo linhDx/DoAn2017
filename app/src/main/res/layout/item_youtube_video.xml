@@ -13,7 +13,7 @@
         android:layout_height="100dp"
         android:contentDescription="@string/app_name"
         android:scaleType="centerCrop"
-        fresco:placeholderImage="@drawable/app_icon" />
+        fresco:placeholderImage="@drawable/img_not_found_1" />
 
     <LinearLayout
         style="@style/Layout.Weight.Width"

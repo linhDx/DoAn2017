@@ -11,15 +11,20 @@
         android:theme="@style/AppTheme"
         android:supportsRtl="true"
         android:name="com.orm.SugarApp">
-        <activity android:name=".View.Activity.MainActivity" >
+        <activity android:name=".View.Activity.IntroduceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".View.Activity.MainActivity" >
+        </activity>
         <activity android:name=".View.Activity.YouTubePlayerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"></activity>
+
+        <activity android:name=".View.Activity.SettingActivity"></activity>
+
         <meta-data android:name="DATABASE" android:value="mydb.db" />
         <meta-data android:name="VERSION" android:value="2" />
         <meta-data android:name="QUERY_LOG" android:value="true" />

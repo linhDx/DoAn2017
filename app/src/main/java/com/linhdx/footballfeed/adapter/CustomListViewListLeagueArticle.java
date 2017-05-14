@@ -1,10 +1,12 @@
 package com.linhdx.footballfeed.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.linhdx.footballfeed.entity.LeagueNameRss;
@@ -19,10 +21,11 @@ import java.util.List;
 public class CustomListViewListLeagueArticle extends BaseAdapter {
     List<LeagueNameRss> list;
     Context context;
-
-    public CustomListViewListLeagueArticle(List<LeagueNameRss> list, Context context) {
+    Integer[] imgid;
+    public CustomListViewListLeagueArticle(List<LeagueNameRss> list, Context context,Integer[] imgid) {
         this.list = list;
         this.context = context;
+        this.imgid = imgid;
     }
 
     @Override
@@ -42,6 +45,7 @@ public class CustomListViewListLeagueArticle extends BaseAdapter {
 
     public  class HolderListLeagueArticle {
         TextView name;
+        ImageView image;
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -51,8 +55,9 @@ public class CustomListViewListLeagueArticle extends BaseAdapter {
         rowView = layoutInflater.inflate(R.layout.custom_lv_team_layout, parent, false);
 
         holder.name = (TextView)rowView.findViewById(R.id.tv_team_name);
-
+        holder.image = (ImageView)rowView.findViewById(R.id.icon_teams);
         holder.name.setText(list.get(position).getName());
+        holder.image.setImageResource(imgid[position]);
         return rowView;
     }
 }

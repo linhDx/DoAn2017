@@ -26,6 +26,12 @@ import java.util.List;
 public class ListLeagueArticleFragment extends Fragment {
     ListView listView;
     List<LeagueNameRss> list;
+    Integer[] imgid = {
+            R.drawable.logo_epl_1,
+            R.drawable.laliga_logo_1,
+            R.drawable.buldesliga_logo_1,
+            R.drawable.serie_a_logo_1,
+    };
     public ListLeagueArticleFragment() {
     }
 
@@ -48,7 +54,7 @@ public class ListLeagueArticleFragment extends Fragment {
         for(int i =0; i< 4; i++){
             list.add(new LeagueNameRss(AppConstant.LIST_LEAGUE_RSS[i], AppConstant.LIST_LEAGUE_VALUE_RSS[i]));
         }
-        listView.setAdapter(new CustomListViewListLeagueArticle(list, getActivity()));
+        listView.setAdapter(new CustomListViewListLeagueArticle(list, getActivity(), imgid));
     }
 
     private void initListener(){

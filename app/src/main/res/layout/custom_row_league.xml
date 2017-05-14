@@ -10,7 +10,7 @@
         android:layout_height="40dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        android:src="@drawable/icon_pl"/>
+        android:src="@drawable/logo_epl_1"/>
     <TextView
         android:id="@+id/tab_league_name"
         android:layout_width="wrap_content"

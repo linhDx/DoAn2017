@@ -3,10 +3,12 @@ package com.linhdx.footballfeed.View.Fragment.TeamFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -37,6 +39,7 @@ public class TeamCompetitionsFragment extends Fragment {
     TextView tvName;
     TeamStatus teamStatus;
     ListView lv;
+    ImageView imBack;
     public TeamCompetitionsFragment() {
     }
 
@@ -58,6 +61,16 @@ public class TeamCompetitionsFragment extends Fragment {
         dataService = DataService.retrofit.create(DataService.class);
         lv = (ListView)view.findViewById(R.id.lv_team_competitions);
         tvName = (TextView)view.findViewById(R.id.tv_team_competitions_title);
+        imBack = (ImageView)view.findViewById(R.id.im_team_competitions_back);
+        imBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(getFragmentManager().getBackStackEntryCount() >0){
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    fm.popBackStack();
+                }
+            }
+        });
         if(teamStatus!= null){
             tvName.setText(teamStatus.getName());
         }

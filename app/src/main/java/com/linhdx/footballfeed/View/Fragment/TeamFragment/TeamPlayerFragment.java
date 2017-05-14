@@ -3,6 +3,7 @@ package com.linhdx.footballfeed.View.Fragment.TeamFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,15 @@ public class TeamPlayerFragment extends Fragment {
             tvTeamName.setText(teamStatus.getName());
         }
         imBack = (ImageView) view.findViewById(R.id.im_team_player_back);
+        imBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(getFragmentManager().getBackStackEntryCount() >0){
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    fm.popBackStack();
+                }
+            }
+        });
         lv = (ListView) view.findViewById(R.id.lv_team_players);
         dataService = DataService.retrofit.create(DataService.class);
         list = new ArrayList<>();

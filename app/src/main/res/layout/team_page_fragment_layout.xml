@@ -79,26 +79,7 @@
                 android:textColor="@color/white"
                 android:layout_marginLeft="10dp"/>
         </TableRow>
-        <TableRow>
-            <TextView
-                android:text="Squad Market Value"
-                android:layout_column="1"
-                android:textSize="8pt"
-                android:textColor="@color/white"
-                android:layout_marginLeft="10dp"/>
-            <TextView
-                android:text=":"
-                android:layout_column="2"
-                android:textSize="8pt"
-                android:textColor="@color/white"
-                android:layout_marginLeft="10dp"/>
-            <TextView
-                android:id="@+id/tv_team_page_market_value"
-                android:layout_column="3"
-                android:textSize="8pt"
-                android:textColor="@color/white"
-                android:layout_marginLeft="10dp"/>
-        </TableRow>
+
     </TableLayout>
 
     <RelativeLayout

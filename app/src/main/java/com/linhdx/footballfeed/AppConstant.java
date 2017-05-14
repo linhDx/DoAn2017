@@ -31,6 +31,8 @@ public class AppConstant {
     public static final String PRE_LEAGUE_TABLE=PRE_BASE_URL + "{league_slug}/seasons/16-17/standings";
     public static final String PRE_MATCH_DAY= "http://www.24h.com.vn/lich-thi-dau-bong-da/lich-thi-dau-bong-da-hom-nay-c287a364371.html";
 
+    public static final String FIRST_LAUNCH_APP = "fist";
+
     //rss website
     public static final String BASE_URL_DANTRI_RSS="http://www.dantri.com.vn/";
     public static final String RSS_DANTRI_ARTICLE= BASE_URL_DANTRI_RSS+ "the-thao/{id_league}.rss";

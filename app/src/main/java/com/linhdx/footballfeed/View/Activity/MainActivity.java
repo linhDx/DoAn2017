@@ -1,6 +1,7 @@
 package com.linhdx.footballfeed.View.Activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -116,7 +117,7 @@ public class MainActivity extends AmazingBaseActivity {
         switch (item.getItemId()) {
 
             case R.id.action_contact:
-                Toast.makeText(this, "aaaa", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(MainActivity.this, SettingActivity.class));
                 return true;
 
         }

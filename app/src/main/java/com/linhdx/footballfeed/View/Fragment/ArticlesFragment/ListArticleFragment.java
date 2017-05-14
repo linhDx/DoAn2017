@@ -507,6 +507,7 @@ public class ListArticleFragment extends Fragment {
                         ) {
                     if (item.getTitlte().toLowerCase().contains(name.toLowerCase())) {
                         showList.add(item);
+                        break;
                     }
                 }
             }
