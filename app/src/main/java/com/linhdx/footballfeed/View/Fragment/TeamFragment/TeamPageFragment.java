@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +23,15 @@ import com.bumptech.glide.load.model.StreamEncoder;
 import com.bumptech.glide.load.resource.file.FileToStreamDecoder;
 import com.caverock.androidsvg.SVG;
 import com.google.gson.Gson;
+import com.linhdx.footballfeed.AppConstant;
+import com.linhdx.footballfeed.View.Activity.MainActivity;
+import com.linhdx.footballfeed.View.Fragment.ArticlesFragment.ListArticleFragment;
 import com.linhdx.footballfeed.entity.TeamStatus;
 import com.linhdx.footballfeed.R;
 import com.linhdx.footballfeed.glide.SvgDecoder;
 import com.linhdx.footballfeed.glide.SvgDrawableTranscoder;
 import com.linhdx.footballfeed.glide.SvgSoftwareLayerSetter;
+import com.linhdx.footballfeed.utils.SharedPreferencesUtil;
 
 import java.io.InputStream;
 
@@ -36,9 +41,10 @@ import java.io.InputStream;
 
 public class TeamPageFragment extends Fragment {
     TextView teamNameTitle, teamName, shortTeamName;
-    ImageView imBack, imIconTeam;
-    RelativeLayout rlTeamPlayer, rlTeamCompetitions;
+    ImageView imBack, imIconTeam, imFavorite;
+    RelativeLayout rlTeamPlayer, rlTeamCompetitions, rlTeamArticle, rlTeamVideo;
     TeamStatus teamStatus;
+    boolean isFavorite  =false;
     private GenericRequestBuilder<Uri, InputStream, SVG, PictureDrawable> requestBuilder;
     public TeamPageFragment() {
     }
@@ -62,8 +68,11 @@ public class TeamPageFragment extends Fragment {
         shortTeamName = (TextView)view.findViewById(R.id.tv_team_page_short_name);
         imIconTeam = (ImageView)view.findViewById(R.id.im_team_page_icon);
         imBack = (ImageView)view.findViewById(R.id.im_team_page_back);
+        imFavorite = (ImageView)view.findViewById(R.id.im_team_favorite);
         rlTeamPlayer =(RelativeLayout)view.findViewById(R.id.rl_view_team_player);
         rlTeamCompetitions =(RelativeLayout)view.findViewById(R.id.rl_view_team_competitions);
+        rlTeamArticle =(RelativeLayout)view.findViewById(R.id.rl_view_team_article);
+        rlTeamVideo =(RelativeLayout)view.findViewById(R.id.rl_view_team_video);
 
         requestBuilder = Glide.with(getActivity())
                 .using(Glide.buildStreamModelLoader(Uri.class, getActivity()), InputStream.class)
@@ -85,17 +94,37 @@ public class TeamPageFragment extends Fragment {
     private void init(TeamStatus teamStatus) {
         teamNameTitle.setText(teamStatus.getName());
         teamName.setText(teamStatus.getName());
-        shortTeamName.setText(teamStatus.getShortName().split("-")[0]);
+        String name = SharedPreferencesUtil.getStringPreference(getActivity(), AppConstant.SP_MY_FAVORITE_CLUB);
+        if(name != null && name.compareTo(teamStatus.getName())==0){
+            imFavorite.setImageResource(R.drawable.ic_star);
+            isFavorite =true;
+        }
 
+        shortTeamName.setText(teamStatus.getShortName().split("-")[0]);
         String urlImage = teamStatus.getImage();
         if (urlImage.contains(".svg")) {
             loadNet(urlImage, imIconTeam);
         } else {
             Glide.with(getActivity()).load(urlImage).into(imIconTeam);
         }
+
     }
 
     private void initListener(final TeamStatus teamStatus){
+        imFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isFavorite = !isFavorite;
+                if(isFavorite){
+                    SharedPreferencesUtil.setStringPreference(getActivity(), AppConstant.SP_MY_FAVORITE_CLUB,teamStatus.getName());
+                    imFavorite.setImageResource(R.drawable.ic_star);
+                }else {
+                    SharedPreferencesUtil.setStringPreference(getActivity(), AppConstant.SP_MY_FAVORITE_CLUB,"null");
+                    imFavorite.setImageResource(R.drawable.ic_star_black_white);
+                }
+            }
+        });
+
         rlTeamPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,6 +136,20 @@ public class TeamPageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 changeCompetitionsFragment(teamStatus);
+            }
+        });
+
+        rlTeamArticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeArticleFragment(teamStatus);
+            }
+        });
+
+        rlTeamVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeVideoFragment(teamStatus);
             }
         });
 
@@ -145,11 +188,29 @@ public class TeamPageFragment extends Fragment {
         ft.replace(R.id.team_container, teamPlayerFragment).addToBackStack(null).commit();
     }
 
+    private void changeArticleFragment(TeamStatus teamStatus){
+        SharedPreferencesUtil.setStringPreference(getActivity(), AppConstant.SP_CLUB_ARTICLE,teamStatus.getName());
+        SharedPreferencesUtil.setBooleanPreference(getActivity(), AppConstant.SP_BOOLEAN_CLUB_ARTICLE, true);
+        SharedPreferencesUtil.setBooleanPreference(getActivity(), AppConstant.SP_BACK, true);
+        getMainActivity().changePager(5);
+    }
+
+    private void changeVideoFragment(TeamStatus teamStatus){
+        SharedPreferencesUtil.setStringPreference(getActivity(), AppConstant.SP_CLUB_VIDEO, teamStatus.getName());
+        SharedPreferencesUtil.setBooleanPreference(getActivity(), AppConstant.SP_BOOLEAN_CLUB_VIDEO, true);
+        SharedPreferencesUtil.setBooleanPreference(getActivity(), AppConstant.SP_BACK, true);
+        getMainActivity().changePager(4);
+    }
+
     private void loadNet(String url, ImageView imageViewNet) {
         Uri uri = Uri.parse(url);
         requestBuilder
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .load(uri)
                 .into(imageViewNet);
+    }
+
+    protected MainActivity getMainActivity() {
+        return (MainActivity) getActivity();
     }
 }

@@ -26,6 +26,8 @@ import com.linhdx.footballfeed.utils.SharedPreferencesUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -173,6 +175,12 @@ public class ListTeamFragment extends Fragment {
             lv.setAdapter(new RecycleViewAdapter(listTeams, getActivity()));
         } else {
             listTeams = TeamStatus.listAll(TeamStatus.class);
+            Collections.sort(listTeams, new Comparator<TeamStatus>() {
+                @Override
+                public int compare(TeamStatus o1, TeamStatus o2) {
+                    return o1.getName().compareTo(o2.getName());
+                }
+            });
             lv.setAdapter(new RecycleViewAdapter(listTeams, getActivity()));
         }
 

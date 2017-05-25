@@ -1,5 +1,6 @@
 package com.linhdx.footballfeed.View.Fragment.TeamFragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -40,6 +41,7 @@ public class TeamCompetitionsFragment extends Fragment {
     TeamStatus teamStatus;
     ListView lv;
     ImageView imBack;
+    ProgressDialog pd;
     public TeamCompetitionsFragment() {
     }
 
@@ -57,6 +59,8 @@ public class TeamCompetitionsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        pd = new ProgressDialog(getActivity());
+        pd.show();
         list = new ArrayList<>();
         dataService = DataService.retrofit.create(DataService.class);
         lv = (ListView)view.findViewById(R.id.lv_team_competitions);
@@ -100,6 +104,7 @@ public class TeamCompetitionsFragment extends Fragment {
 
                     CustomListViewCompetitionsAdapter adapter = new CustomListViewCompetitionsAdapter(getActivity(),list);
                     lv.setAdapter(adapter);
+                    pd.dismiss();
                 } else {
                     Log.d("AAA", "khong co tran nao");
                 }

@@ -1,17 +1,22 @@
 package com.linhdx.footballfeed.View.Fragment.TeamFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.linhdx.footballfeed.View.Activity.PlayerActivity;
 import com.linhdx.footballfeed.adapter.CustomListViewTeamPlayerAdapter;
 import com.linhdx.footballfeed.AppObjectNetWork.FootBallDataNetWork.PlayerNetWorkStatus;
 import com.linhdx.footballfeed.AppObjectNetWork.FootBallDataNetWork.TeamPlayerNetWorkWrapper;
@@ -74,7 +79,21 @@ public class TeamPlayerFragment extends Fragment {
         lv = (ListView) view.findViewById(R.id.lv_team_players);
         dataService = DataService.retrofit.create(DataService.class);
         list = new ArrayList<>();
-        onRequestPlayer(Integer.parseInt(Utils.getTeamId(teamStatus.getPlayers())));
+        list = TeamPlayer.findWithQuery(TeamPlayer.class, "Select * from TEAM_PLAYER where TEAM_STATUS=?", String.valueOf(teamStatus.getId()));
+        if(list.size()>0) {
+            CustomListViewTeamPlayerAdapter adapter = new CustomListViewTeamPlayerAdapter(list, getActivity());
+            lv.setAdapter(adapter);
+            Log.d("AAAA", "aaaa");
+        } else {
+            onRequestPlayer(Integer.parseInt(Utils.getTeamId(teamStatus.getPlayers())));
+        }
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                changePlayerActivity(list.get(position));
+            }
+        });
     }
 
     private void onRequestPlayer(final int id) {
@@ -85,7 +104,7 @@ public class TeamPlayerFragment extends Fragment {
                 for (PlayerNetWorkStatus item : response.body().getPlayers()) {
                     TeamPlayer teamPlayer = new TeamPlayer(item.getName(), item.getPosition(), item.getJerseyNumber(), item.getDateOfBirth(),
                             item.getNationality(), item.getContractUntil(),
-                            item.getMarketValue(), teamStatus);
+                            item.getMarketValue(), teamStatus,"");
                     list.add(teamPlayer);
                 }
                 CustomListViewTeamPlayerAdapter adapter = new CustomListViewTeamPlayerAdapter(list, getActivity());
@@ -104,5 +123,11 @@ public class TeamPlayerFragment extends Fragment {
         });
     }
 
-
+    private void changePlayerActivity(TeamPlayer teamPlayer){
+        Intent intent  = new Intent(getActivity(), PlayerActivity.class);
+        Gson gson = new Gson();
+        String j = gson.toJson(teamPlayer);
+        intent.putExtra("player", j);
+        getActivity().startActivityForResult(intent, 1);
+    }
 }

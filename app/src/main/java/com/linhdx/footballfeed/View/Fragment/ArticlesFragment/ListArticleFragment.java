@@ -3,7 +3,6 @@ package com.linhdx.footballfeed.View.Fragment.ArticlesFragment;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -36,21 +33,15 @@ import com.linhdx.footballfeed.NetworkAPI.RssService;
 import com.linhdx.footballfeed.R;
 import com.linhdx.footballfeed.entity.Article;
 import com.linhdx.footballfeed.entity.TeamStatus;
-import com.linhdx.footballfeed.utils.ArticleUtils;
+import com.linhdx.footballfeed.utils.SharedPreferencesUtil;
 import com.linhdx.footballfeed.utils.Utils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
-import altplus.amazing.view.widget.AmazingRecyclerView;
+import linhdx.amazing.view.widget.AmazingRecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,7 +64,7 @@ public class ListArticleFragment extends Fragment {
     private RadioGroup radioGroup;
     private List<TeamStatus> listTeam;
     private boolean isPubDate = true;
-
+    private String clubName;
     public ListArticleFragment() {
     }
 
@@ -100,7 +91,6 @@ public class ListArticleFragment extends Fragment {
         mLLSpinner = (LinearLayout) view.findViewById(R.id.ll_spinner);
         mSpinner = (Spinner) view.findViewById(R.id.spn_club);
         radioGroup = (RadioGroup) view.findViewById(R.id.my_radio_group);
-
         list = new ArrayList<>();
         showList = new ArrayList<>();
         listClub = new ArrayList<>();
@@ -112,7 +102,7 @@ public class ListArticleFragment extends Fragment {
     }
 
     private void initData() {
-
+        clubName = SharedPreferencesUtil.getStringPreference(getActivity(), AppConstant.SP_CLUB_ARTICLE);
         if (league.compareTo("error") != 0) {
             switch (league) {
                 case "1":
@@ -135,6 +125,8 @@ public class ListArticleFragment extends Fragment {
                     break;
             }
         }
+
+
     }
 
     private void initListener() {
@@ -208,9 +200,42 @@ public class ListArticleFragment extends Fragment {
                     isPubDate = true;
                     showListArticle(list, 1);
                     mLLSpinner.setVisibility(View.GONE);
+                    mFilter.setVisibility(View.GONE);
                 } else if (checkedId == R.id.rd_club) {
                     isPubDate = false;
                     mLLSpinner.setVisibility(View.VISIBLE);
+                } else if(checkedId == R.id.rd_club_favorite){
+                    String name = SharedPreferencesUtil.getStringPreference(getActivity(), AppConstant.SP_MY_FAVORITE_CLUB);
+                    if(name!= null && name.compareTo("null")!=0) {
+                        isPubDate = false;
+                        mLLSpinner.setVisibility(View.GONE);
+                        mFilter.setVisibility(View.GONE);
+                        List<TeamStatus> listTeam;
+                        switch (league) {
+                            case "1":
+                                listTeam = TeamStatus.findWithQuery(TeamStatus.class, "Select * from TEAM_STATUS where FAMOUS = ?", "1");
+                                break;
+                            case "2":
+                                listTeam = TeamStatus.findWithQuery(TeamStatus.class, "Select * from TEAM_STATUS where FAMOUS = ?", "2");
+                                break;
+                            case "3":
+                                listTeam = TeamStatus.findWithQuery(TeamStatus.class, "Select * from TEAM_STATUS where FAMOUS = ?", "3");
+                                break;
+                            case "4":
+                                listTeam = TeamStatus.findWithQuery(TeamStatus.class, "Select * from TEAM_STATUS where FAMOUS = ?", "4");
+                                break;
+                            default:
+                                listTeam = TeamStatus.listAll(TeamStatus.class);
+                        }
+                        TeamStatus team = getStarClub(listTeam, name);
+                        if(team!= null) {
+                            new GetListArticleClub().execute(name);
+                        } else {
+                            Toast.makeText(getActivity(), "No article for this", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(getActivity(),"You dont have favorite club", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -264,17 +289,24 @@ public class ListArticleFragment extends Fragment {
                     Article a = new Article(item.getLink(), item.getTitle().trim(),
                             item.getDescription(), item.getImage(), Utils.StringToDate_BDC(item.getPubDate()), AppConstant.LIST_WEBNAME[0]);
                     list.add(a);
-                    Log.d("AAAA", "A" + a.getTitlte());
                 }
                 if (isDT) {
                     if (list.size() == 75) {
                         sortList(list);
+                        if(clubName!= null && clubName.compareTo("none")!=0){
+                            new GetListArticleClub().execute(clubName);
+                            SharedPreferencesUtil.setStringPreference(getActivity(), AppConstant.SP_CLUB_ARTICLE, "none");
+                        } else
                         showListArticle(list, count);
                     }
                 } else {
                     if (list.size() == 65) {
                         sortList(list);
-                        showListArticle(list, count);
+                        if(clubName!= null && clubName.compareTo("none")!=0){
+                            new GetListArticleClub().execute(clubName);
+                            SharedPreferencesUtil.setStringPreference(getActivity(), AppConstant.SP_CLUB_ARTICLE, "none");
+                        } else
+                            showListArticle(list, count);
                     }
                 }
             }
@@ -301,12 +333,20 @@ public class ListArticleFragment extends Fragment {
                 if (isDT) {
                     if (list.size() == 75) {
                         sortList(list);
-                        showListArticle(list, count);
+                        if(clubName!= null && clubName.compareTo("none")!=0){
+                            new GetListArticleClub().execute(clubName);
+                            SharedPreferencesUtil.setStringPreference(getActivity(), AppConstant.SP_CLUB_ARTICLE, "none");
+                        } else
+                            showListArticle(list, count);
                     }
                 } else {
                     if (list.size() == 65) {
                         sortList(list);
-                        showListArticle(list, count);
+                        if(clubName!= null && clubName.compareTo("none")!=0){
+                            new GetListArticleClub().execute(clubName);
+                            SharedPreferencesUtil.setStringPreference(getActivity(), AppConstant.SP_CLUB_ARTICLE, "none");
+                        } else
+                            showListArticle(list, count);
                     }
                 }
             }
@@ -333,12 +373,20 @@ public class ListArticleFragment extends Fragment {
                 if (isDT) {
                     if (list.size() == 75) {
                         sortList(list);
-                        showListArticle(list, count);
+                        if(clubName!= null && clubName.compareTo("none")!=0){
+                            new GetListArticleClub().execute(clubName);
+                            SharedPreferencesUtil.setStringPreference(getActivity(), AppConstant.SP_CLUB_ARTICLE, "none");
+                        } else
+                            showListArticle(list, count);
                     }
                 } else {
                     if (list.size() == 65) {
                         sortList(list);
-                        showListArticle(list, count);
+                        if(clubName!= null && clubName.compareTo("none")!=0){
+                            new GetListArticleClub().execute(clubName);
+                            SharedPreferencesUtil.setStringPreference(getActivity(), AppConstant.SP_CLUB_ARTICLE, "none");
+                        } else
+                            showListArticle(list, count);
                     }
                 }
             }
@@ -366,12 +414,20 @@ public class ListArticleFragment extends Fragment {
                 if (isDT) {
                     if (list.size() == 75) {
                         sortList(list);
-                        showListArticle(list, count);
+                        if(clubName!= null && clubName.compareTo("none")!=0){
+                            new GetListArticleClub().execute(clubName);
+                        } else
+                            showListArticle(list, count);
                     }
                 } else {
                     if (list.size() == 65) {
                         sortList(list);
-                        showListArticle(list, count);
+                        if(clubName!= null && clubName.compareTo("none")!=0){
+                            new GetListArticleClub().execute(clubName);
+                            SharedPreferencesUtil.setStringPreference(getActivity(), AppConstant.SP_CLUB_ARTICLE, "none");
+                            SharedPreferencesUtil.setStringPreference(getActivity(), AppConstant.SP_CLUB_ARTICLE, "none");
+                        } else
+                            showListArticle(list, count);
                     }
                 }
             }
@@ -499,15 +555,17 @@ public class ListArticleFragment extends Fragment {
             }
 
             TeamStatus clubStar = getStarClub(listTeam, club);
-            String shortName[] = clubStar.getShortName().split("-");
-            showList.clear();
-            for (Article item : list
-                    ) {
-                for (String name : shortName
+            if(clubStar.getShortName()!= null) {
+                String shortName[] = clubStar.getShortName().split("-");
+                showList.clear();
+                for (Article item : list
                         ) {
-                    if (item.getTitlte().toLowerCase().contains(name.toLowerCase())) {
-                        showList.add(item);
-                        break;
+                    for (String name : shortName
+                            ) {
+                        if (item.getTitlte().toLowerCase().contains(name.toLowerCase())) {
+                            showList.add(item);
+                            break;
+                        }
                     }
                 }
             }
@@ -522,8 +580,6 @@ public class ListArticleFragment extends Fragment {
                 }
             });
 
-
-//            Log.d("AAAA", clubStar.getName() + "AAAA");
             return null;
         }
 
@@ -541,7 +597,6 @@ public class ListArticleFragment extends Fragment {
                 ) {
             if (t.getName().compareTo(name) == 0) {
                 club = t;
-//                Log.d("AAAA", club.getName());
                 break;
             }
         }

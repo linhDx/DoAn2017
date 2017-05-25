@@ -3,12 +3,12 @@
 
     <item
         is-multidex="false"
-        jar="/home/shine/AndroidStudioProjects/FootballFeed/amazing/build/intermediates/bundles/default/classes.jar"
+        jar="/home/shine/AndroidStudioProjects/FootballFeed/AndroidBaseComponent/build/intermediates/bundles/default/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="47e9c099ff62e06097ca8b2b797100cffc01e48b">
-        <dex dex="/home/shine/AndroidStudioProjects/FootballFeed/app/build/intermediates/pre-dexed/debug/classes_826adf6bacebe6cfb368e94b727a9cbe7a348161.jar" />
+        sha1="d472e6fc02aeb186786a6628357bf1fa6ee9e100">
+        <dex dex="/home/shine/AndroidStudioProjects/FootballFeed/app/build/intermediates/pre-dexed/debug/classes_3bdfc7a91a978ff82928a8fe31de761a79d7413f.jar" />
     </item>
     <item
         is-multidex="false"
@@ -18,15 +18,6 @@
         revision="25.0.2"
         sha1="d98fcdbfa06bd8fcca1dab708c0468b9821f3ed9">
         <dex dex="/home/shine/AndroidStudioProjects/FootballFeed/app/build/intermediates/pre-dexed/debug/androidsvg-1.2.2-beta-1_c0e6c2743664f2458176375cbd9d2e6fd6481388.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/home/shine/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.8.3/65fd012581ded67bc20945d85c32b4598c3a9cf1/jsoup-1.8.3.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.2"
-        sha1="65fd012581ded67bc20945d85c32b4598c3a9cf1">
-        <dex dex="/home/shine/AndroidStudioProjects/FootballFeed/app/build/intermediates/pre-dexed/debug/jsoup-1.8.3_8bdb51f45f5884f4511a717debe9f0fa29943b65.jar" />
     </item>
     <item
         is-multidex="false"

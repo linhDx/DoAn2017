@@ -1,0 +1,21 @@
+<resources>
+
+    <!--Some basic dimen-->
+    <dimen name="margin_extra_long">32dp</dimen>
+    <dimen name="margin_long">20dp</dimen>
+    <dimen name="margin_standard">16dp</dimen>
+    <dimen name="margin_short">8dp</dimen>
+    <dimen name="margin_extra_short">4dp</dimen>
+    <dimen name="margin_tiny">2dp</dimen>
+    <!--Some basic dimen-->
+
+    <!--Some basic dimen text-->
+    <dimen name="text_extra_big">20sp</dimen>
+    <dimen name="text_big">18sp</dimen>
+    <dimen name="text_normal">16sp</dimen>
+    <dimen name="text_small">14sp</dimen>
+    <dimen name="text_extra_small">12sp</dimen>
+    <dimen name="text_micro">10sp</dimen>
+    <!--Some basic dimen text-->
+
+</resources>

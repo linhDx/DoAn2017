@@ -8,12 +8,13 @@ import com.orm.SugarRecord;
 
 public class TeamPlayer extends SugarRecord{
     String name, position, jerseyNumber, dateOfBirth, nationality, contracUntil, marketValue;
+    String fifa_id;
      public TeamStatus teamStatus;
     public TeamPlayer() {
     }
 
     public TeamPlayer(String name, String position, String jerseyNumber, String dateOfBirth, String nationality, String contracUntil, String marketValue
-                  , TeamStatus teamStatus  ) {
+                  , TeamStatus teamStatus, String fifa_id ) {
         this.name = name;
         this.position = position;
         this.jerseyNumber = jerseyNumber;
@@ -22,6 +23,7 @@ public class TeamPlayer extends SugarRecord{
         this.contracUntil = contracUntil;
         this.marketValue = marketValue;
         this.teamStatus = teamStatus;
+        this.fifa_id =fifa_id;
     }
 
 
@@ -87,5 +89,13 @@ public class TeamPlayer extends SugarRecord{
 
     public void setTeamStatus(TeamStatus teamStatus) {
         this.teamStatus = teamStatus;
+    }
+
+    public String getFifa_id() {
+        return fifa_id;
+    }
+
+    public void setFifa_id(String fifa_id) {
+        this.fifa_id = fifa_id;
     }
 }

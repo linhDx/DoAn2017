@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/actionBarSize">
+
+    <ImageButton
+        android:id="@+id/btn_left"
+        android:layout_width="?android:attr/actionBarSize"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_transparent_press" />
+
+    <TextView
+        android:id="@+id/tv_left"
+        style="@style/TextToolBar" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="?android:attr/actionBarSize"
+        android:layout_marginRight="?android:attr/actionBarSize"
+        android:background="@drawable/bg_transparent_press"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_right"
+        style="@style/TextToolBar"
+        android:layout_alignParentRight="true" />
+
+    <ImageButton
+        android:id="@+id/btn_right"
+        android:layout_width="?android:attr/actionBarSize"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/bg_transparent_press" />
+
+    <ImageButton
+        android:id="@+id/btn_favorite"
+        android:layout_width="?android:attr/actionBarSize"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@+id/btn_right"
+        android:background="@drawable/bg_transparent_press"
+        android:src="@drawable/btn_favorite" />
+</RelativeLayout>

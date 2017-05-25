@@ -5,16 +5,20 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.linhdx.footballfeed.adapter.CustomListViewListLeagueArticle;
 import com.linhdx.footballfeed.AppConstant;
 import com.linhdx.footballfeed.entity.LeagueNameRss;
 import com.linhdx.footballfeed.R;
+import com.linhdx.footballfeed.entity.TeamStatus;
+import com.linhdx.footballfeed.utils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +51,30 @@ public class ListLeagueArticleFragment extends Fragment {
         listView = (ListView)view.findViewById(R.id.lv_list_league_article);
         creatList();
         initListener();
+        initdata();
+    }
+
+    private void initdata() {
+        String clubName = SharedPreferencesUtil.getStringPreference(getActivity(), AppConstant.SP_CLUB_ARTICLE);
+        List<TeamStatus> list;
+        if(clubName!= null && clubName.compareTo("none")!=0){
+            for(int i = 1; i <5; i++){
+                list = TeamStatus.findWithQuery(TeamStatus.class, "Select * from TEAM_STATUS where FAMOUS = ?", String.valueOf(i));
+                for (TeamStatus t: list
+                     ) {
+                    if(t.getName().compareTo(clubName)==0){
+                        SharedPreferencesUtil.setBooleanPreference(getActivity(), AppConstant.SP_BOOLEAN_CLUB_ARTICLE, false);
+                        changeListArticleFragment(String.valueOf(i));
+                        break;
+                    }
+                }
+            }
+        }
+        if(SharedPreferencesUtil.getBooleanPreference(getActivity(), AppConstant.SP_BOOLEAN_CLUB_ARTICLE, false)){
+            Toast.makeText(getActivity(), "No Article for this Club, Select league to continue", Toast.LENGTH_LONG).show();
+            SharedPreferencesUtil.setBooleanPreference(getActivity(), AppConstant.SP_BOOLEAN_CLUB_ARTICLE, false);
+            SharedPreferencesUtil.setStringPreference(getActivity(), AppConstant.SP_CLUB_ARTICLE, "none");
+        }
     }
 
     private void creatList(){

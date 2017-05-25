@@ -41,6 +41,13 @@
                 android:text="Star Football Club"
                 android:textColor="@color/black"
                 android:layout_marginTop="5dp"/>
+            <RadioButton
+                android:id="@+id/rd_club_favorite"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:text="My Football Club"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"/>
         </RadioGroup>
         <LinearLayout
             android:id="@+id/ll_spinner"
@@ -69,7 +76,7 @@
         </LinearLayout>
 
     </LinearLayout>
-    <altplus.amazing.view.widget.AmazingRecyclerView
+    <linhdx.amazing.view.widget.AmazingRecyclerView
         android:id="@+id/lv_list_article"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -27,7 +27,7 @@ import com.linhdx.footballfeed.entity.YouTubeVideo;
 import java.util.ArrayList;
 import java.util.List;
 
-import altplus.amazing.view.widget.AmazingRecyclerView;
+import linhdx.amazing.view.widget.AmazingRecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -88,7 +88,7 @@ public class YouTubePlayerActivity extends YouTubeFailureRecoveryActivity implem
 
     private void initControl() {
         mTvVideoName.setText(mCurrentVideo.getTitle());
-        mTvDescription.setText(mCurrentVideo.getDescription());
+        mTvDescription.setText("Football Feed");
         mListVideos = new ArrayList<YouTubeVideo>();
         mAdapter = new YoutubeVideoAdapter(this, mListVideos);
         mAdapter.setOnItemClickListener(new YoutubeVideoAdapter.OnItemClickListener() {

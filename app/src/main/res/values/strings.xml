@@ -46,17 +46,26 @@
     <string name="share">Share</string>
     <string name="sendFeedback">Send feedback</string>
 
-    <string name="slide_1_title">Hello Food!</string>
-    <string name="slide_1_desc">The easiest way to order food from your favourite restaurant!</string>
+    <string name="slide_1_title">Current Match</string>
+    <string name="slide_1_desc">Provide information for the next match of four leagues and set notification to match you want</string>
 
-    <string name="slide_2_title">Movie Tickets</string>
-    <string name="slide_2_desc">Book movie tickets for your family and friends!</string>
+    <string name="slide_2_title">League table</string>
+    <string name="slide_2_desc">Easy to view league table of four leagues Premier League, Laliga, Buldesliga and Serie A</string>
 
-    <string name="slide_3_title">Great Discounts</string>
-    <string name="slide_3_desc">Best discounts on every single service we offer!</string>
+    <string name="slide_3_title">Football Club</string>
+    <string name="slide_3_desc">View information of football club as base information, football player and matchs</string>
 
-    <string name="slide_4_title">World Travel</string>
-    <string name="slide_4_desc">Book tickets of any transportation and travel the world!</string>
+    <string name="slide_7_title">Player</string>
+    <string name="slide_7_desc">View  base information of player</string>
+
+    <string name="slide_4_title">Article</string>
+    <string name="slide_4_desc">Read many interested article, filter with public date and star football club</string>
+
+    <string name="slide_5_title">Video highlight</string>
+    <string name="slide_5_desc">Easy to view any highlight of the match you want</string>
+
+    <string name="slide_6_title">Match Result</string>
+    <string name="slide_6_desc">Provide information for the match, result, goal, video</string>
 
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>

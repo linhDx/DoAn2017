@@ -58,10 +58,13 @@ public class IntroduceActivity extends AppCompatActivity{
         btnNext = (Button) findViewById(R.id.btn_next);
 
         layouts = new int[]{
+                R.layout.introduce_slide6,
                 R.layout.introduce_slide1,
                 R.layout.introduce_slide2,
                 R.layout.introduce_slide3,
-                R.layout.introduce_slide4};
+                R.layout.introduce_slide4,
+                R.layout.introduce_slide5,
+                R.layout.introduce_slide7};
 
         addBottomDots(0);
 

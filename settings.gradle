@@ -1,1 +1,1 @@
-include ':app', ':amazing'
+include ':app', ':AndroidBaseComponent'

@@ -3,7 +3,7 @@
     style="@style/Layout.FillWidthHeight"
     android:paddingLeft="3dp"
     android:paddingRight="3dp">
-    <altplus.amazing.view.widget.AmazingRecyclerView
+    <linhdx.amazing.view.widget.AmazingRecyclerView
         android:id="@+id/arcView"
         style="@style/ListView"
         android:dividerHeight="5dp" />

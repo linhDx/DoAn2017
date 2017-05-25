@@ -19,12 +19,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".View.Activity.MainActivity" >
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable">
+            </meta-data>
         </activity>
         <activity android:name=".View.Activity.YouTubePlayerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"></activity>
 
         <activity android:name=".View.Activity.SettingActivity"></activity>
+        <activity android:name=".View.Activity.PlayerActivity"></activity>
 
+        <receiver android:name=".View.Activity.MyReceiver"></receiver>
         <meta-data android:name="DATABASE" android:value="mydb.db" />
         <meta-data android:name="VERSION" android:value="2" />
         <meta-data android:name="QUERY_LOG" android:value="true" />

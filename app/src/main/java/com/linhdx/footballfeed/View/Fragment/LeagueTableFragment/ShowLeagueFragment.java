@@ -1,9 +1,12 @@
 package com.linhdx.footballfeed.View.Fragment.LeagueTableFragment;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +14,23 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.linhdx.footballfeed.AppConstant;
 import com.linhdx.footballfeed.adapter.CustomListViewLeagueTableAdapter;
 import com.linhdx.footballfeed.AppObjectNetWork.FootBallDataNetWork.LeagueTableNetWorkWrapper;
 import com.linhdx.footballfeed.AppObjectNetWork.FootBallDataNetWork.LeagueTableTeamNetWorkStatus;
 import com.linhdx.footballfeed.AppObjectNetWork.FootBallDataPreventive.DataWrapper;
 import com.linhdx.footballfeed.AppObjectNetWork.FootBallDataPreventive.Standing;
-import com.linhdx.footballfeed.NetworkAPI.DataPreventiveService;
 import com.linhdx.footballfeed.entity.LeagueTableTeamStatus;
 import com.linhdx.footballfeed.NetworkAPI.DataService;
 import com.linhdx.footballfeed.R;
+import com.linhdx.footballfeed.utils.Utils;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +48,7 @@ public class ShowLeagueFragment extends Fragment {
     TextView mLeagueName;
     ListView lvLeagueTable;
     ImageView mBack;
-    DataPreventiveService dataPreventiveService;
+
     public ShowLeagueFragment() {
     }
 
@@ -65,22 +75,26 @@ public class ShowLeagueFragment extends Fragment {
         });
         listTeam = new ArrayList<>();
         dataService = DataService.retrofit.create(DataService.class);
-        dataPreventiveService = DataPreventiveService.retrofit.create(DataPreventiveService.class);
         Bundle id = this.getArguments();
         if(id != null){
             onRequestLeagueTable(id.getInt("id"));
+
             switch (id.getInt("id")){
                 case 426:
                     mLeagueName.setText("Premier League");
+//                    new getData().execute(AppConstant.URL_BXH_ANH);
                     break;
                 case 430:
                     mLeagueName.setText("Buldesliga");
+//                    new getData().execute(AppConstant.URL_BXH_DUC);
                     break;
                 case 436:
                     mLeagueName.setText("Premier Division");
+//                    new getData().execute(AppConstant.URL_BXH_TBN);
                     break;
                 case 438:
                     mLeagueName.setText("Serie A");
+//                    new getData().execute(AppConstant.URL_BXH_Y);
                     break;
                 default:break;
             }
@@ -108,16 +122,16 @@ public class ShowLeagueFragment extends Fragment {
             public void onFailure(Call<LeagueTableNetWorkWrapper> call, Throwable t) {
                 switch (id_league){
                     case 426:
-                       requestPreventive("premier-league");
+                        new getData().execute(AppConstant.URL_BXH_ANH);
                         break;
                     case 430:
-                        requestPreventive("bundesliga");
+                        new getData().execute(AppConstant.URL_BXH_DUC);
                         break;
                     case 436:
-                        requestPreventive("liga");
+                        new getData().execute(AppConstant.URL_BXH_TBN);
                         break;
                     case 438:
-                        requestPreventive("serie-a");
+                        new getData().execute(AppConstant.URL_BXH_Y);
                         break;
                     default:break;
                 }
@@ -125,26 +139,66 @@ public class ShowLeagueFragment extends Fragment {
         });
     }
 
-    public void requestPreventive(String league_slug){
-        Call<DataWrapper> call = dataPreventiveService.getData(league_slug);
-        call.enqueue(new Callback<DataWrapper>() {
-            @Override
-            public void onResponse(Call<DataWrapper> call, Response<DataWrapper> response) {
-                for (Standing item: response.body().getData().getStandings()
-                     ) {
-                    LeagueTableTeamStatus lt= new LeagueTableTeamStatus(item.getPosition(), item.getTeam(),
-                            "", item.getOverall().getMatchesPlayed(), item.getOverall().getPoints()
-                    , item.getOverall().getGoalDifference());
-                    listTeam.add(lt);
+
+    public class getData extends AsyncTask<String, Void, Void> {
+        ProgressDialog pd;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd = new ProgressDialog(getActivity());
+            pd.show();
+
+        }
+        @Override
+        protected Void doInBackground(String... params) {
+            String url;
+            url = params[0];
+            try {
+                Document doc = Jsoup.connect(url).get();
+//
+                for (Element table : doc.select("div#zone_type_view_total table.table-bordered")) {
+                    for (Element row : table.select("tr")) {
+                        Elements tds = row.select("td");
+//                        Log.d("AAAA", tds.size()+"A");
+                        if (tds.size() > 6) {
+                            String infor = tds.get(0).text() + "-" + tds.get(1).text() +"-"+ tds.get(2).text() +"-" + tds.get(3).text() +tds.get(4).text();
+                            Log.d("AAAA", infor);
+//
+                            LeagueTableTeamStatus lt= new LeagueTableTeamStatus(Integer.parseInt(tds.get(0).text()), tds.get(1).text(),
+                                    "", Integer.parseInt(tds.get(2).text()), Integer.parseInt(tds.get(9).text())
+                                    , Utils.getGoalDiff(tds.get(8).text()));
+                            listTeam.add(lt);
+                        }
+                    }
                 }
-                CustomListViewLeagueTableAdapter adapter = new CustomListViewLeagueTableAdapter(listTeam, getActivity());
-                lvLeagueTable.setAdapter(adapter);
-            }
 
-            @Override
-            public void onFailure(Call<DataWrapper> call, Throwable t) {
+                /// process here
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showData();
+                    }
+                });
 
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        });
+            return null;
+        }
+
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            showData();
+            pd.dismiss();
+        }
+
+        private void showData(){
+            CustomListViewLeagueTableAdapter adapter = new CustomListViewLeagueTableAdapter(listTeam, getActivity());
+            lvLeagueTable.setAdapter(adapter);
+        }
     }
 }

@@ -8,6 +8,7 @@ import com.linhdx.footballfeed.NetworkAPI.WebServiceConfig;
 import com.linhdx.footballfeed.View.Fragment.ArticlesFragment.ArticlesFragment;
 import com.linhdx.footballfeed.View.Fragment.LeagueTableFragment.LeagueTableFragment;
 import com.linhdx.footballfeed.View.Fragment.MatchDayFragment.MatchDayFragment;
+import com.linhdx.footballfeed.View.Fragment.MatchResultFragment.MatchResultFragment;
 import com.linhdx.footballfeed.View.Fragment.SuperAwesomeCardFragment;
 import com.linhdx.footballfeed.View.Fragment.TeamFragment.TeamFragment;
 import com.linhdx.footballfeed.View.Fragment.YoutubeVideoFragment.ChannelFragment;
@@ -17,7 +18,7 @@ import com.linhdx.footballfeed.View.Fragment.YoutubeVideoFragment.ChannelFragmen
  */
 
 public class MyPagerAdapter extends FragmentPagerAdapter {
-    private final String[] TITLES = { "Matches", "LeagueTable", "Teams", "Articles","Video"};
+    private final String[] TITLES = { "Match Result","Matches", "Teams", "LeagueTable","Video", "Articles"};
 
     public MyPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -28,19 +29,22 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
         Fragment a ;
         switch (position){
             case 0:
-                a= new MatchDayFragment();
+                a= new MatchResultFragment();
                 break;
             case 1:
-                a = new LeagueTableFragment();
+                a= new MatchDayFragment();
                 break;
             case 2:
                 a = new TeamFragment();
                 break;
             case 3:
-                a= new ArticlesFragment();
+                a = new LeagueTableFragment();
                 break;
             case 4:
                 a = ChannelFragment.newInstance("Video", WebServiceConfig.CHANNEL1);
+                break;
+            case 5:
+                a= new ArticlesFragment();
                 break;
             default:
                 a=  SuperAwesomeCardFragment.newInstance(position);

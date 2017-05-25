@@ -2,6 +2,7 @@ package com.linhdx.footballfeed.NetworkAPI;
 
 import com.linhdx.footballfeed.AppConstant;
 import com.linhdx.footballfeed.AppObjectNetWork.FootBallDataNetWork.LeagueTableNetWorkWrapper;
+import com.linhdx.footballfeed.AppObjectNetWork.FootBallDataNetWork.MatchResultNetworkWrapper;
 import com.linhdx.footballfeed.AppObjectNetWork.FootBallDataNetWork.NextMatchNetWorkWrapper;
 import com.linhdx.footballfeed.AppObjectNetWork.FootBallDataNetWork.TeamNetWorkWrapper;
 import com.linhdx.footballfeed.AppObjectNetWork.FootBallDataNetWork.TeamPlayerNetWorkWrapper;
@@ -38,9 +39,13 @@ public interface DataService {
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient)
             .build();
-    //http://api.football-data.org/v1/competitions/426/fixtures?timeFrame=n1
+    //http://api.football-data.org/v1/competitions/426/fixtures?timeFrame=n7
     @GET(AppConstant.PL_N_MATCH)
     Call<NextMatchNetWorkWrapper> getNextMatchStatusesPL(@Path("id") int groupID);
+
+    //http://api.football-data.org/v1/competitions/426/fixtures?timeFrame=p7
+    @GET(AppConstant.MATCH_RESULT)
+    Call<MatchResultNetworkWrapper> getMatchResult(@Path("id") int groupID);
 
     //http://api.football-data.org/v1/competitions/426/leagueTable
     @GET(AppConstant.LEAGUETABLE)

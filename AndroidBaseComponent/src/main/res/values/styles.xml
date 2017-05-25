@@ -1,0 +1,14 @@
+<resources>
+
+    <style name="TextToolBar">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/bg_transparent_press</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">@dimen/margin_standard</item>
+        <item name="android:paddingRight">@dimen/margin_standard</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+
+</resources>

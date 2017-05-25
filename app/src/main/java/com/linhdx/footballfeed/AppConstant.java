@@ -8,6 +8,7 @@ public class AppConstant {
     public static final String BASE_URL = "http://api.football-data.org/v1/";
 //    public static final String BASE_URL = "http://api.football-data.org/v1/cvc/";
     public static final String PL_N_MATCH = BASE_URL + "competitions/{id}/fixtures?timeFrame=n7";
+    public static final String MATCH_RESULT = BASE_URL + "competitions/{id}/fixtures?timeFrame=p7";
     public static final String LEAGUETABLE = BASE_URL + "competitions/{id}/leagueTable";
     public static final String TEAMS = BASE_URL +"competitions/{id}/teams";
     public static final String TEAM_PLAYER = BASE_URL + "teams/{id}/players";
@@ -25,11 +26,13 @@ public class AppConstant {
 
     public static final String SP_TEAM_SAVED="team_saved";
     public static final String SP_PLAYER_SAVED ="player_saved";
-    public static final String SP_MATCH_SAVED="match_saved";
-
-    public static final String PRE_BASE_URL="http://soccer.sportsopendata.net/v1/leagues/";
-    public static final String PRE_LEAGUE_TABLE=PRE_BASE_URL + "{league_slug}/seasons/16-17/standings";
-    public static final String PRE_MATCH_DAY= "http://www.24h.com.vn/lich-thi-dau-bong-da/lich-thi-dau-bong-da-hom-nay-c287a364371.html";
+    public static final String SP_MY_FAVORITE_CLUB="club";
+    public static final String SP_CLUB_ARTICLE="club_article";
+    public static final String SP_CLUB_VIDEO="club_video";
+    public static final String SP_BOOLEAN_CLUB_VIDEO ="isClubVideo";
+    public static final String SP_BOOLEAN_CLUB_ARTICLE ="isClubArticle";
+    public static final String SP_MATCH_VIDEO = "match_video";
+    public static final String SP_BOOLEAN_MATCH_VIDEO ="isMatchVideo";
 
     public static final String FIRST_LAUNCH_APP = "fist";
 
@@ -45,4 +48,12 @@ public class AppConstant {
 
     public static final String BASE_URL_BONGDA24H_RSS="http://bongda24h.vn/RSS/";
     public static final String RSS_BONGDA24H_ARTICLE= BASE_URL_BONGDA24H_RSS +"{id_league}.rss";
+
+    public static final String URL_BXH_ANH="http://www.24h.com.vn/bang-xep-hang-bong-da/bang-xep-hang-bong-da-anh-c295a466585.html";
+    public static final String URL_BXH_TBN="http://www.24h.com.vn/bang-xep-hang-bong-da/bang-xep-hang-bong-da-tay-ban-nha-c295a468129.html";
+    public static final String URL_BXH_DUC="http://www.24h.com.vn/bang-xep-hang-bong-da/bang-xep-hang-bong-da-duc-c295a467117.html";
+    public static final String URL_BXH_Y="http://www.24h.com.vn/bang-xep-hang-bong-da/bang-xep-hang-bong-da-y-c295a394572.html";
+
+    public static final String SP_BACK="back";
+    public static final String SP_NOTIFICATION = "notification";
 }

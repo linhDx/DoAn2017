@@ -42,7 +42,7 @@ public class CustomListViewTeamPlayerAdapter extends BaseAdapter {
     }
 
     public class Holder{
-        TextView name, position, jerseyNumber, birth, nationality, contracUntil;
+        TextView name;
     }
 
     @Override
@@ -51,24 +51,9 @@ public class CustomListViewTeamPlayerAdapter extends BaseAdapter {
         View rowView;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         rowView = inflater.inflate(R.layout.custom_lv_team_player_layout, parent, false);
-
-        holder.name = (TextView)rowView.findViewById(R.id.tv_team_player_name);
-        holder.position = (TextView)rowView.findViewById(R.id.tv_team_player_position);
-        holder.jerseyNumber = (TextView)rowView.findViewById(R.id.tv_team_player_jersey_number);
-        holder.birth = (TextView)rowView.findViewById(R.id.tv_team_player_birth);
-        holder.nationality = (TextView)rowView.findViewById(R.id.tv_team_player_nationality);
-        holder.contracUntil = (TextView)rowView.findViewById(R.id.tv_team_player_contract_until);
-
+        holder.name = (TextView)rowView.findViewById(R.id.tv_player_name);
         holder.name.setText(list.get(position).getName());
-        holder.position.setText(list.get(position).getPosition());
-        holder.jerseyNumber.setText(list.get(position).getJerseyNumber()+"");
-        holder.birth.setText(Utils.convertDate(list.get(position).getDateOfBirth()));
-        holder.nationality.setText(list.get(position).getNationality());
-        if(list.get(position).getContracUntil().contains("-")){
-        holder.contracUntil.setText(Utils.convertDate(list.get(position).getContracUntil()));}
-        else {
-            holder.contracUntil.setText("Unpublished");
-        }
+
         return rowView;
     }
 }

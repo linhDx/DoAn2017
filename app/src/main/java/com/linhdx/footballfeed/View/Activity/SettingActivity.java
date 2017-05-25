@@ -12,7 +12,7 @@ import android.view.View;
 
 import com.linhdx.footballfeed.R;
 
-import altplus.amazing.view.activity.AmazingBaseActivity;
+import linhdx.amazing.view.activity.AmazingBaseActivity;
 
 /**
  * Created by shine on 14/05/2017.

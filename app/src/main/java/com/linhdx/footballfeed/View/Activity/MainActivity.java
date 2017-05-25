@@ -1,6 +1,10 @@
 package com.linhdx.footballfeed.View.Activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
@@ -9,21 +13,25 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.google.gson.Gson;
 import com.linhdx.footballfeed.adapter.MyPagerAdapter;
 import com.linhdx.footballfeed.AppConstant;
 import com.linhdx.footballfeed.AppObjectNetWork.FootBallDataNetWork.PlayerNetWorkStatus;
@@ -33,10 +41,10 @@ import com.linhdx.footballfeed.AppObjectNetWork.FootBallDataNetWork.TeamPlayerNe
 import com.linhdx.footballfeed.NetworkAPI.DataService;
 import com.linhdx.footballfeed.NetworkAPI.RssService;
 import com.linhdx.footballfeed.R;
+import com.linhdx.footballfeed.adapter.SearchPlayerAdapter;
 import com.linhdx.footballfeed.entity.Article;
 import com.linhdx.footballfeed.entity.TeamPlayer;
 import com.linhdx.footballfeed.entity.TeamStatus;
-import com.linhdx.footballfeed.utils.ArticleUtils;
 import com.linhdx.footballfeed.utils.SharedPreferencesUtil;
 import com.linhdx.footballfeed.utils.Utils;
 
@@ -47,11 +55,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
-import altplus.amazing.view.activity.AmazingBaseActivity;
+import linhdx.amazing.view.activity.AmazingBaseActivity;
 import retrofit2.Call;
 
-public class MainActivity extends AmazingBaseActivity {
+public class MainActivity extends AmazingBaseActivity implements SearchView.OnQueryTextListener {
     private final Handler handler = new Handler();
     private PagerSlidingTabStrip tabs;
     private ViewPager pager;
@@ -62,6 +71,13 @@ public class MainActivity extends AmazingBaseActivity {
     private RssService rssService_BDC, rssService_247;
     List<TeamStatus> listTeams;
     List<Article> listArticle;
+    private Stack<Integer> stackkk = new Stack<>();
+    private SearchView searchView;
+    private MenuItem searchMenuItem;
+    private List<TeamPlayer> listPlayer;
+    private RelativeLayout rl_pager;
+    private ListView lv;
+    private SearchPlayerAdapter searchAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -75,6 +91,8 @@ public class MainActivity extends AmazingBaseActivity {
         actionBar.setIcon(R.drawable.soccer);
         tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         pager = (ViewPager) findViewById(R.id.pager);
+        lv = (ListView) findViewById(R.id.lv_list_player);
+        rl_pager = (RelativeLayout) findViewById(R.id.rl_pager);
 
         adapter = new MyPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
@@ -93,21 +111,86 @@ public class MainActivity extends AmazingBaseActivity {
             try {
                 initDataBase();
             } catch (IOException e) {
+                new getListPlayerAndTeam().execute();
             }
         }
-//        new getListArtcle().execute();
         Fresco.initialize(this);
+    }
+
+    private void initPlayerList() {
+        listPlayer = TeamPlayer.listAll(TeamPlayer.class);
+        searchAdapter = new SearchPlayerAdapter(MainActivity.this, listPlayer);
+        lv.setAdapter(searchAdapter);
+        lv.setTextFilterEnabled(false);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position >= 0 && position <= listPlayer.size()) {
+                    handelListItemClick((TeamPlayer) searchAdapter.getItem(position));
+                }
+            }
+        });
     }
 
     @Override
     protected void initListeners() {
+        tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
+            @Override
+            public void onPageSelected(int position) {
+
+                if (stackkk.empty()) {
+                    stackkk.push(0);
+                }
+                if (stackkk.contains(position)) {
+                    stackkk.remove(stackkk.indexOf(position));
+                    stackkk.push(position);
+                } else {
+                    stackkk.push(position);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu, menu);
+        SearchManager searchManager = (SearchManager)
+                getSystemService(Context.SEARCH_SERVICE);
+        searchMenuItem = menu.findItem(R.id.search);
+        searchView = (SearchView) searchMenuItem.getActionView();
+
+        searchView.setSearchableInfo(searchManager.
+                getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(this);
+        searchView.setQueryHint("Search Player");
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                rl_pager.setVisibility(View.VISIBLE);
+                lv.setVisibility(View.GONE);
+                return false;
+            }
+        });
+
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initPlayerList();
+                rl_pager.setVisibility(View.GONE);
+                lv.setVisibility(View.VISIBLE);
+            }
+        });
         return true;
     }
 
@@ -119,7 +202,6 @@ public class MainActivity extends AmazingBaseActivity {
             case R.id.action_contact:
                 startActivity(new Intent(MainActivity.this, SettingActivity.class));
                 return true;
-
         }
 
         return super.onOptionsItemSelected(item);
@@ -193,12 +275,40 @@ public class MainActivity extends AmazingBaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
-            FragmentManager fm = getSupportFragmentManager();
-            fm.popBackStack();
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+//            Log.d("AAAA", "boolean:" + SharedPreferencesUtil.getBooleanPreference(MainActivity.this, AppConstant.SP_BACK, false));
+            if (!SharedPreferencesUtil.getBooleanPreference(MainActivity.this, AppConstant.SP_BACK, false)) {
+                getSupportFragmentManager().popBackStack();
+            } else {
+                SharedPreferencesUtil.setBooleanPreference(MainActivity.this, AppConstant.SP_BACK, false);
+                stackkk.pop();
+                changePager(stackkk.lastElement());
+
+            }
+
+        } else if (stackkk.size() > 1) {
+            SharedPreferencesUtil.setBooleanPreference(MainActivity.this, AppConstant.SP_BACK, false);
+            stackkk.pop();
+            changePager(stackkk.lastElement());
+        } else if(!searchView.isIconified()){
+            searchView.setIconified(true);
+            rl_pager.setVisibility(View.VISIBLE);
+            lv.setVisibility(View.GONE);
         } else {
             super.onBackPressed();
         }
+
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        searchAdapter.getFilter().filter(newText);
+        return false;
     }
 
     public class getListPlayerAndTeam extends AsyncTask<Void, Void, Void> {
@@ -224,7 +334,7 @@ public class MainActivity extends AmazingBaseActivity {
                     TeamStatus a = new TeamStatus(item.getLinks().getFixtures().getHref(),
                             item.getLinks().getPlayers().getHrefTeamPlay(),
                             item.getName(), item.getShortName(), item.getSquadMarketValue(),
-                            item.getCrestUrl(),1);
+                            item.getCrestUrl(), 1);
                     listTeams.add(a);
                 }
             } catch (IOException e) {
@@ -239,7 +349,7 @@ public class MainActivity extends AmazingBaseActivity {
                     TeamStatus a = new TeamStatus(item.getLinks().getFixtures().getHref(),
                             item.getLinks().getPlayers().getHrefTeamPlay(),
                             item.getName(), item.getShortName(), item.getSquadMarketValue(),
-                            item.getCrestUrl(),2);
+                            item.getCrestUrl(), 2);
                     listTeams.add(a);
                 }
             } catch (IOException e) {
@@ -253,7 +363,7 @@ public class MainActivity extends AmazingBaseActivity {
                     TeamStatus a = new TeamStatus(item.getLinks().getFixtures().getHref(),
                             item.getLinks().getPlayers().getHrefTeamPlay(),
                             item.getName(), item.getShortName(), item.getSquadMarketValue(),
-                            item.getCrestUrl(),3);
+                            item.getCrestUrl(), 3);
                     listTeams.add(a);
                 }
             } catch (IOException e) {
@@ -268,7 +378,7 @@ public class MainActivity extends AmazingBaseActivity {
                     TeamStatus a = new TeamStatus(item.getLinks().getFixtures().getHref(),
                             item.getLinks().getPlayers().getHrefTeamPlay(),
                             item.getName(), item.getShortName(), item.getSquadMarketValue(),
-                            item.getCrestUrl(),4);
+                            item.getCrestUrl(), 4);
                     listTeams.add(a);
                 }
             } catch (IOException e) {
@@ -316,7 +426,7 @@ public class MainActivity extends AmazingBaseActivity {
                             ) {
                         TeamPlayer teamPlayer = new TeamPlayer(player.getName(), player.getPosition(), player.getJerseyNumber(), player.getDateOfBirth(),
                                 player.getNationality(), player.getContractUntil(),
-                                player.getMarketValue(), item);
+                                player.getMarketValue(), item, "");
                         list.add(teamPlayer);
                     }
                     List<TeamPlayer> check = TeamPlayer.find(TeamPlayer.class, "TEAM_STATUS=?", new String(String.valueOf(item.getId())));
@@ -367,6 +477,25 @@ public class MainActivity extends AmazingBaseActivity {
             }
 
         }
+    }
+
+    public void changePager(int item) {
+        pager.setCurrentItem(item, true);
+    }
+
+    private void handelListItemClick(TeamPlayer player) {
+        // close search view if its visible
+        if (searchView.isShown()) {
+            searchMenuItem.collapseActionView();
+            searchView.setQuery("", false);
+        }
+
+        // pass selected user and sensor to share activity
+        Intent intent = new Intent(this, PlayerActivity.class);
+        Gson gson = new Gson();
+        String j = gson.toJson(player);
+        intent.putExtra("player", j);
+        this.startActivity(intent);
     }
 
 
